@@ -52,8 +52,11 @@ typedef struct
     int s21_truncate(s21_decimal value, s21_decimal *result);
     int s21_negate(s21_decimal value, s21_decimal *result);
 
+// Вспомогательные функции
 
-
+    int get_bit(s21_decimal dec, int bit_num);
+    int put_bit(s21_decimal* dec, int bit_num, int bit);
+    void print_bits(s21_decimal dec);
 
 
 
