@@ -7,14 +7,17 @@
 // #include <limits.h>
 // #include <string.h>
 
-#define TRUE 1
-#define FALSE 0
+#define MINUS   1
+#define PLUS    0
+
+#define TRUE    1
+#define FALSE   0
 #define MAX_EXP 28
 
 // bits[0] - младшие биты 0-31
 // bits[1] - средние биты 32-63
 // bits[2] - старшие биты 64-95
-// bits[3] - 0-15 нули, 16-23 показатели степени, 24-30 нули, 31 знак ('0' - '+')
+// bits[3] - 96-111 нули, 112-119 показатели степени, 120-126 нули, 127 знак ('0' - '+')
 typedef struct 
 {
     int bits[4];
@@ -57,6 +60,9 @@ typedef struct
     int get_bit(s21_decimal dec, int bit_num);
     int put_bit(s21_decimal* dec, int bit_num, int bit);
     void print_bits(s21_decimal dec);
+    void put_sign(s21_decimal* dec, int sign);
+    void put_exp(s21_decimal* dec, int exp);
+    int str_to_dec(char* src);
 
 
 
