@@ -1,5 +1,5 @@
 CC =				gcc
-CFLAGS =			-Wall -Werror -Wextra -std=c11 -O0
+CFLAGS =			-Wall -Wextra -std=c11 -O0
 GCOV_FLAGS = 		-fprofile-arcs -ftest-coverage -lgcov
 CHECK_FLAGS =		-lcheck -lm -lpthread 
 FLAGS =				$(CFLAGS) $(CHECK_FLAGS) $(GCOV_FLAGS)
@@ -28,7 +28,8 @@ REPORT_NAME = 	report
 .PHONY: all test gcov_report
 
 #all: $(MYLIB) gcov_report
-all: gcov_report
+all: test
+	./$(NAME)
 
 test: $(OBJSTEST)
 	$(CC) $(OBJSTEST) -o $(NAME) $(FLAGS)
@@ -54,8 +55,6 @@ objs_test/%.o: %.c
 
 gcov_report: test
 	./$(NAME)
-#	geninfo $(wildcard $(OBJTESTDIR)/*.gcda) -b . -o check_res
-#	genhtml check_res -o finish
 	lcov -t "$(REPORT_NAME)" -o objs_test/$(REPORT_NAME).info -c -d .
 	genhtml objs_test/$(REPORT_NAME).info -o finish
 ifeq ($(UNAME), Darwin)

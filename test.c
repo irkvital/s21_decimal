@@ -3,11 +3,12 @@
 #include "./s21_decimal.h"
 
 int main() {
-    s21_decimal dec = {{(1 << 31), (1 << 30), 2, 3}};
+    // s21_decimal dec = {{2, (1 << 30), 2, 3}};
+    s21_decimal dec = {{0, 1, 2, 3}};
     print_bits(dec);
-    putchar('\n');
+    // putchar('\n');
 
-    put_bit(&dec, 127, 0);
+    put_bit(&dec, 1, 1);
     print_bits(dec);
     return 0;
 }
