@@ -1,5 +1,5 @@
 CC =				gcc
-CFLAGS =			-Wall -Werror -Wextra -O0
+CFLAGS =			-Wall -Werror -Wextra -std=c11 -O0
 GCOV_FLAGS = 		-fprofile-arcs -ftest-coverage -lgcov
 CHECK_FLAGS =		-lcheck -lm -lpthread 
 FLAGS =				$(CFLAGS) $(CHECK_FLAGS) $(GCOV_FLAGS)
@@ -22,12 +22,13 @@ DEPENDSTEST = 	$(OBJSTEST:%.o=%.d)
 OBJTESTDIR 	= 	objs_test objs_test/tests
 
 NAME 		= 	test
-MYLIB 		= 	s21_math.a
+MYLIB 		= 	s21_decimal.a
 REPORT_NAME = 	report
 
 .PHONY: all test gcov_report
 
-all: $(MYLIB) gcov_report
+#all: $(MYLIB) gcov_report
+all: gcov_report
 
 test: $(OBJSTEST)
 	$(CC) $(OBJSTEST) -o $(NAME) $(FLAGS)
@@ -37,7 +38,7 @@ test: $(OBJSTEST)
 clean: clean_gcov
 	rm -rf objs *.a
 clean_gcov:
-	rm -rf objs_test *.info $(REPORT_NAME) $(NAME) check_res finish
+	rm -rf objs_test *.info $(REPORT_NAME) $(NAME) finish
 
 $(MYLIB): $(OBJS)
 	ar rc $(MYLIB) $(OBJS)
@@ -55,8 +56,8 @@ gcov_report: test
 	./$(NAME)
 #	geninfo $(wildcard $(OBJTESTDIR)/*.gcda) -b . -o check_res
 #	genhtml check_res -o finish
-	lcov -t "$(REPORT_NAME)" -o $(REPORT_NAME).info -c -d .
-	genhtml $(REPORT_NAME).info -o finish
+	lcov -t "$(REPORT_NAME)" -o objs_test/$(REPORT_NAME).info -c -d .
+	genhtml objs_test/$(REPORT_NAME).info -o finish
 ifeq ($(UNAME), Darwin)
 	open finish/index.html
 endif
@@ -71,3 +72,6 @@ lint:
 
 cppcheck:
 	cppcheck --suppress=missingIncludeSystem --enable=all *.c
+
+h:
+	firefox finish/index.html
