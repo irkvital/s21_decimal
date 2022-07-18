@@ -5,7 +5,7 @@
 #include <math.h>
 // #include <stdlib.h>
 // #include <limits.h>
-// #include <string.h>
+#include <string.h>
 
 #define MINUS   1
 #define PLUS    0
@@ -60,9 +60,9 @@ typedef struct
     int get_bit(s21_decimal dec, int bit_num);
     int put_bit(s21_decimal* dec, int bit_num, int bit);
     void print_bits(s21_decimal dec);
-    void put_sign(s21_decimal* dec, int sign);
+    // void put_sign(s21_decimal* dec, int sign);
     void put_exp(s21_decimal* dec, int exp);
-    int str_to_dec(char* src);
+    int dec_to_str(s21_decimal dec);
 
 
 

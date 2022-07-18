@@ -26,21 +26,20 @@ void print_bits(s21_decimal dec) {
     for (int byte = 0; byte < 4; byte++) {
         for (int bit = 32 * (byte + 1) - 1; bit >= byte * 32; bit--) {
             int out = get_bit(dec, bit);
-            if (bit >= 112 && bit <= 119) {
+            if (bit >= 112 && bit <= 119 || bit == 127) {
                 printf("\x1B[31m""%d", out);
             } else {
                 printf( "\x1B[0m""%d", out);
             }
-            
         }
         putchar('\n');
     }
     putchar('\n');
 }
 
-void put_sign(s21_decimal* dec, int sign) {
-    put_bit(dec, 127, sign);
-}
+// void put_sign(s21_decimal* dec, int sign) {
+//     put_bit(dec, 127, sign);
+// }
 
 void put_exp(s21_decimal* dec, int exp) {
     exp = (exp > 28) ? 28 : exp; // хз, может и не нужно
@@ -50,6 +49,44 @@ void put_exp(s21_decimal* dec, int exp) {
     }
 }
 
-// int str_to_dec(char* src) {
+int dec_to_str(s21_decimal dec) {
+    char out[32];
+    memset(out, '0', 30), out[29] = '\0', out[30] = '\0', out[31] = '\0';
+    char exptwo[30];
+    memset(exptwo, '0', 28); exptwo[28] = '1', exptwo[29] = '\0';
 
-// }
+    if (get_bit(dec, 0)) out[28] = '1';
+    for (int bit_num = 1; bit_num < 96; bit_num++) {
+        // Получение степеней двойки
+        int flag = 0;
+        for (int i = 28; i >= 0; i--) {
+            int symbol = exptwo[i] - '0';
+            symbol = (flag) ? (symbol * 2 + flag) : (symbol * 2);
+            exptwo[i] = symbol % 10 + '0';
+            flag = symbol / 10;
+        }
+        // Сложение строк
+        if (get_bit(dec, bit_num)) {
+            flag = 0;
+            for (int i = 28; i >= 0; i--) {
+                int symbol = exptwo[i] - '0' + out[i] - '0';
+                symbol = (flag) ? (symbol + flag) : symbol;
+                out[i] = symbol % 10 + '0';
+                flag = symbol / 10;
+            }
+        }
+    }
+    // Вставка точки
+    int point = (dec.bits[3] << 1) >> 17;
+    if (point) {
+        memmove(out + 30 - point, out + 29 - point, point);
+        out[29 - point] = '.';
+    }
+    // Вставка знака
+    if (get_bit(dec, 127)) {
+        memmove(out + 1, out, 30);
+        out[0] = '-';
+    }
+    printf("%s\n", out);
+    return 0;
+}

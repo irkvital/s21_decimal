@@ -1,8 +1,9 @@
-CC =				gcc
-CFLAGS =			-Wall -Wextra -std=c11 -O0
-GCOV_FLAGS = 		-fprofile-arcs -ftest-coverage -lgcov
-CHECK_FLAGS =		-lcheck -lm -lpthread 
-FLAGS =				$(CFLAGS) $(CHECK_FLAGS) $(GCOV_FLAGS)
+CC 			=	gcc
+CFLAGS 		=	-Wall -Wextra -std=c11 -O0
+GCOV_FLAGS 	= 	-fprofile-arcs -ftest-coverage
+CHECK_FLAGS =	-lcheck -lm -lpthread 
+FLAGS 		=	$(CFLAGS) $(CHECK_FLAGS) $(GCOV_FLAGS)
+GFLAGS 		=	$(FLAGS)
 
 UNAME := $(shell uname)
 ifeq ($(UNAME), Linux)
@@ -32,7 +33,8 @@ all: test
 	./$(NAME)
 
 test: $(OBJSTEST)
-	$(CC) $(OBJSTEST) -o $(NAME) $(FLAGS)
+	rm -rf $(wildcard objs_test/*.gcda objs_test/tests/*.gcda)
+	$(CC) $(OBJSTEST) -o $(NAME) $(GFLAGS)
 
 -include $(DEPENDS) $(DEPENDSTEST)
 
@@ -53,16 +55,14 @@ objs_test/%.o: %.c
 	@mkdir -p $(OBJTESTDIR)
 	$(CC) -MMD -o $@ -c $< $(FLAGS)
 
+gcov_report: GFLAGS += -lgcov
 gcov_report: test
 	./$(NAME)
 	lcov -t "$(REPORT_NAME)" -o objs_test/$(REPORT_NAME).info -c -d .
 	genhtml objs_test/$(REPORT_NAME).info -o finish
-ifeq ($(UNAME), Darwin)
-	open finish/index.html
-endif
 
 debug: FLAGS += -fsanitize=address -g
-debug: clean_gcov gcov_report
+debug: gcov_report
 
 lint:
 	cp ../materials/linters/CPPLINT.cfg ./
@@ -73,4 +73,9 @@ cppcheck:
 	cppcheck --suppress=missingIncludeSystem --enable=all *.c
 
 h:
+ifeq ($(UNAME), Linux)
 	firefox finish/index.html
+endif
+ifeq ($(UNAME), Darwin)
+	open finish/index.html
+endif
