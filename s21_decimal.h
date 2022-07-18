@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include <math.h>
-// #include <stdlib.h>
+#include <stdlib.h>
 // #include <limits.h>
 #include <string.h>
 
@@ -46,7 +46,7 @@ typedef struct
     // int s21_from_int_to_decimal(int src, s21_decimal *dst);
     // int s21_from_float_to_decimal(float src, s21_decimal *dst);
     // int s21_from_decimal_to_int(s21_decimal src, int *dst);
-    // int s21_from_decimal_to_float(s21_decimal src, float *dst);
+    int s21_from_decimal_to_float(s21_decimal src, float *dst);
 
 // Другие функции. Возвращают: 0 - OK, 1 - ошибка вычисления
 
@@ -61,7 +61,7 @@ typedef struct
     int put_bit(s21_decimal* dec, int bit_num, int bit);
     void print_bits(s21_decimal dec);
     void put_exp(s21_decimal* dec, int exp);
-    int print_dec(s21_decimal dec);
+    char* dec_to_str(s21_decimal dec);
 
 
 

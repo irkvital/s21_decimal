@@ -45,11 +45,11 @@ void put_exp(s21_decimal* dec, int exp) {
     }
 }
 
-int print_dec(s21_decimal dec) {
-    char out[32];
-    memset(out, '0', 30), out[29] = '\0', out[30] = '\0', out[31] = '\0';
+char* dec_to_str(s21_decimal dec) {
+    char* out = (char*) calloc(32, sizeof(char));
+    memset(out, '0', 29), out[29] = '\0', out[30] = '\0', out[31] = '\0';
     char exptwo[30];
-    memset(exptwo, '0', 28); exptwo[28] = '1', exptwo[29] = '\0';
+    memset(exptwo, '0', 28), exptwo[28] = '1', exptwo[29] = '\0';
 
     if (get_bit(dec, 0)) out[28] = '1';
     for (int bit_num = 1; bit_num < 96; bit_num++) {
@@ -83,6 +83,5 @@ int print_dec(s21_decimal dec) {
         memmove(out + 1, out, 30);
         out[0] = '-';
     }
-    printf("%s\n", out);
-    return 0;
+    return out;
 }
