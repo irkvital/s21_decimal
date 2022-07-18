@@ -1,7 +1,7 @@
 #include "./s21_decimal.h"
 
 int get_bit(s21_decimal dec, int bit_num) {
-    int out = -1;
+    int out = - 1;
     if (bit_num >= 0 && bit_num < 128) {
         out = (dec.bits[bit_num / 32] & (1 << bit_num % 32)) ? 1 : 0;
     }
@@ -26,7 +26,7 @@ void print_bits(s21_decimal dec) {
     for (int byte = 0; byte < 4; byte++) {
         for (int bit = 32 * (byte + 1) - 1; bit >= byte * 32; bit--) {
             int out = get_bit(dec, bit);
-            if (bit >= 112 && bit <= 119 || bit == 127) {
+            if ((bit >= 112 && bit <= 119) || bit == 127) {
                 printf("\x1B[31m""%d", out);
             } else {
                 printf( "\x1B[0m""%d", out);
@@ -37,10 +37,6 @@ void print_bits(s21_decimal dec) {
     putchar('\n');
 }
 
-// void put_sign(s21_decimal* dec, int sign) {
-//     put_bit(dec, 127, sign);
-// }
-
 void put_exp(s21_decimal* dec, int exp) {
     exp = (exp > 28) ? 28 : exp; // хз, может и не нужно
     for (int bit_num = 0; bit_num < 5; bit_num++) {
@@ -49,7 +45,7 @@ void put_exp(s21_decimal* dec, int exp) {
     }
 }
 
-int dec_to_str(s21_decimal dec) {
+int print_dec(s21_decimal dec) {
     char out[32];
     memset(out, '0', 30), out[29] = '\0', out[30] = '\0', out[31] = '\0';
     char exptwo[30];

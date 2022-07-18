@@ -25,44 +25,43 @@ typedef struct
 
 // Арифметические операторы. Возвращают: 0 - ок, 1 - велико или +INF, 2 - мало или -INF, 3 - деление на 0
 
-    int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
-    int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
-    int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
-    int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
-    int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+    // int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+    // int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+    // int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+    // int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+    // int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 
 
 // Операторы сравнения. Возвращают: 0 - FALSE, 1 - TRUE
 
-    int s21_is_less(s21_decimal, s21_decimal);
-    int s21_is_less_or_equal(s21_decimal, s21_decimal);
-    int s21_is_greater(s21_decimal, s21_decimal);
-    int s21_is_greater_or_equal(s21_decimal, s21_decimal);
-    int s21_is_equal(s21_decimal, s21_decimal);
-    int s21_is_not_equal(s21_decimal, s21_decimal);
+    // int s21_is_less(s21_decimal, s21_decimal);
+    // int s21_is_less_or_equal(s21_decimal, s21_decimal);
+    // int s21_is_greater(s21_decimal, s21_decimal);
+    // int s21_is_greater_or_equal(s21_decimal, s21_decimal);
+    // int s21_is_equal(s21_decimal, s21_decimal);
+    // int s21_is_not_equal(s21_decimal, s21_decimal);
 
 // Преобразователи. Возвращают: 0 - OK, 1 - ошибка конвертации
 
-    int s21_from_int_to_decimal(int src, s21_decimal *dst);
-    int s21_from_float_to_decimal(float src, s21_decimal *dst);
-    int s21_from_decimal_to_int(s21_decimal src, int *dst);
-    int s21_from_decimal_to_float(s21_decimal src, float *dst);
+    // int s21_from_int_to_decimal(int src, s21_decimal *dst);
+    // int s21_from_float_to_decimal(float src, s21_decimal *dst);
+    // int s21_from_decimal_to_int(s21_decimal src, int *dst);
+    // int s21_from_decimal_to_float(s21_decimal src, float *dst);
 
 // Другие функции. Возвращают: 0 - OK, 1 - ошибка вычисления
 
-    int s21_floor(s21_decimal value, s21_decimal *result);
-    int s21_round(s21_decimal value, s21_decimal *result);
-    int s21_truncate(s21_decimal value, s21_decimal *result);
-    int s21_negate(s21_decimal value, s21_decimal *result);
+    // int s21_floor(s21_decimal value, s21_decimal *result);
+    // int s21_round(s21_decimal value, s21_decimal *result);
+    // int s21_truncate(s21_decimal value, s21_decimal *result);
+    // int s21_negate(s21_decimal value, s21_decimal *result);
 
 // Вспомогательные функции
 
     int get_bit(s21_decimal dec, int bit_num);
     int put_bit(s21_decimal* dec, int bit_num, int bit);
     void print_bits(s21_decimal dec);
-    // void put_sign(s21_decimal* dec, int sign);
     void put_exp(s21_decimal* dec, int exp);
-    int dec_to_str(s21_decimal dec);
+    int print_dec(s21_decimal dec);
 
 
 
