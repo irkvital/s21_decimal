@@ -13,6 +13,7 @@
 #define TRUE    1
 #define FALSE   0
 #define MAX_EXP 28
+#define LEFT_BIT (1 << 31)
 
 // bits[0] - младшие биты 0-31
 // bits[1] - средние биты 32-63
@@ -57,6 +58,7 @@ typedef struct
 
 // Вспомогательные функции
 
+    int shift_left(s21_decimal* dec);
     int get_bit(s21_decimal dec, int bit_num);
     int put_bit(s21_decimal* dec, int bit_num, int bit);
     void print_bits(s21_decimal dec);

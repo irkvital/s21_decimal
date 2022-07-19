@@ -88,6 +88,19 @@ char* dec_to_str(s21_decimal dec) {
 
 // Вспомогательные функции для математических операций
 
+int shift_left(s21_decimal* dec) {
+    int flag = (dec->bits[2] & LEFT_BIT) ? 1 : 0; // 1 - будет переполнение сдвиг невозможен
+    if (!flag) {
+        for (int byte = 0; byte < 3; byte++) {
+            int flagn = (dec->bits[byte] & LEFT_BIT) ? 1 : 0;
+            dec->bits[byte] <<= 1;
+            dec->bits[byte] += flag;
+            flag = flagn;
+        }
+    }
+    return flag;
+}
+
 int s21_add_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     int flag = 0;
     for (int bit_num = 0; bit_num < 96; bit_num++) {
@@ -111,3 +124,8 @@ int s21_sub_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result
     }
     return flag;
 }
+
+// int s21_mul_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+
+//     return 0; // Добавить выводы ошибок при переполнении
+// }

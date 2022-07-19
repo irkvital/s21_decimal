@@ -20,27 +20,30 @@ int main() {
     printf("fl %.28f\n", fl);
     */
 
-    s21_decimal dec1 = {{1, 1, 0, 0}};
-    s21_decimal dec2 = {{8, 0, 0, 0}};
-    s21_decimal dec3 = {{0, 0, 0, 0}};
-    s21_negate(dec3, &dec3);
-
-    s21_sub_simple(dec1, dec2, &dec3);
+    s21_decimal dec1 = {{LEFT_BIT, 1568 + LEFT_BIT, 1, 0}};
+    // s21_decimal dec2 = {{8, 0, 0, 0}};
+    // s21_decimal dec3 = {{0, 0, 0, 0}};
+    // s21_negate(dec3, &dec3);
     print_bits(dec1);
-    print_bits(dec2);
-    print_bits(dec3);
+    shift_left(&dec1);
 
-    char* f1 = dec_to_str(dec1);
-    printf("%s\n", f1);
-    free(f1);
 
-    char* f2 = dec_to_str(dec2);
-    printf("%s\n", f2);
-    free(f2);
+    // s21_sub_simple(dec1, dec2, &dec3);
+    print_bits(dec1);
+    // print_bits(dec2);
+    // print_bits(dec3);
 
-    char* f3 = dec_to_str(dec3);
-    printf("%s\n", f3);
-    free(f3);
+    // char* f1 = dec_to_str(dec1);
+    // printf("%s\n", f1);
+    // free(f1);
+
+    // char* f2 = dec_to_str(dec2);
+    // printf("%s\n", f2);
+    // free(f2);
+
+    // char* f3 = dec_to_str(dec3);
+    // printf("%s\n", f3);
+    // free(f3);
 
     return 0;
 }
