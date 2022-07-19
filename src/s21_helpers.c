@@ -125,7 +125,21 @@ int s21_sub_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result
     return flag;
 }
 
-// int s21_mul_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-
-//     return 0; // Добавить выводы ошибок при переполнении
-// }
+int s21_mul_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+    int flag = 0;
+    for (int i = 0; i < 3; i++) result->bits[i] = 0;
+    // Количество значащих цифр во втором множителе
+    int count = 96;
+    s21_decimal tmp = value_2;
+    while (!shift_left(&tmp) && count > 0) {
+        count--;
+    }
+    //  Умножение
+    for (int i = 0; i < count; i++) {
+        if (get_bit(value_2, i) == 1) {
+            s21_add_simple(*result, value_1, result);
+        }
+        if (shift_left(&value_1)) flag = 1;
+    }
+    return flag; // Добавить выводы ошибок при переполнении
+}
