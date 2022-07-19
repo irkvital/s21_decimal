@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
-// #include <limits.h>
+#include <limits.h>
 #include <string.h>
 
 #define MINUS   1
@@ -25,7 +25,7 @@ typedef struct
 
 // Арифметические операторы. Возвращают: 0 - ок, 1 - велико или +INF, 2 - мало или -INF, 3 - деление на 0
 
-    // int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+    int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
     // int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
     // int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
     // int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
@@ -62,7 +62,10 @@ typedef struct
     void print_bits(s21_decimal dec);
     void put_exp(s21_decimal* dec, int exp);
     char* dec_to_str(s21_decimal dec);
+    void invert_sign(s21_decimal* dec);
 
+    int s21_add_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+    int s21_sub_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 
 
 #endif //  SRC_S21_DECIMAL_H

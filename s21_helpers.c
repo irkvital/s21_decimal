@@ -85,3 +85,35 @@ char* dec_to_str(s21_decimal dec) {
     }
     return out;
 }
+
+void invert_sign(s21_decimal* dec) {
+    int sign = get_bit(*dec, 127);
+    sign = (sign == MINUS) ? (PLUS) : (MINUS);
+    put_bit(dec, 127, sign);
+}
+
+// Вспомогательные функции для математических операций
+
+int s21_add_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+    int flag = 0;
+    for (int bit_num = 0; bit_num < 96; bit_num++) {
+        int bit1 = get_bit(value_1, bit_num);
+        int bit2 = get_bit(value_2, bit_num);
+        int bit3 = bit1 + bit2 + flag;
+        flag = bit3 / 2;
+        put_bit(result, bit_num, bit3 % 2);
+    }
+    return flag; // 0 - OK; 1 - inf
+}
+
+int s21_sub_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+    int flag = 0;
+    for (int bit_num = 0; bit_num < 96; bit_num++) {
+        int bit1 = get_bit(value_1, bit_num);
+        int bit2 = get_bit(value_2, bit_num);
+        int bit3 = bit1 - bit2 - flag;
+        put_bit(result, bit_num, (bit3 + 2) % 2);
+        flag = (bit3 < 0) ? 1 : 0;
+    }
+    return flag;
+}
