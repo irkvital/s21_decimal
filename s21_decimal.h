@@ -53,7 +53,7 @@ typedef struct
     // int s21_floor(s21_decimal value, s21_decimal *result);
     // int s21_round(s21_decimal value, s21_decimal *result);
     // int s21_truncate(s21_decimal value, s21_decimal *result);
-    // int s21_negate(s21_decimal value, s21_decimal *result);
+    int s21_negate(s21_decimal value, s21_decimal *result);
 
 // Вспомогательные функции
 
@@ -62,7 +62,6 @@ typedef struct
     void print_bits(s21_decimal dec);
     void put_exp(s21_decimal* dec, int exp);
     char* dec_to_str(s21_decimal dec);
-    void invert_sign(s21_decimal* dec);
 
     int s21_add_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
     int s21_sub_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);

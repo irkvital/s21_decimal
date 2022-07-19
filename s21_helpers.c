@@ -86,12 +86,6 @@ char* dec_to_str(s21_decimal dec) {
     return out;
 }
 
-void invert_sign(s21_decimal* dec) {
-    int sign = get_bit(*dec, 127);
-    sign = (sign == MINUS) ? (PLUS) : (MINUS);
-    put_bit(dec, 127, sign);
-}
-
 // Вспомогательные функции для математических операций
 
 int s21_add_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {

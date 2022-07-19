@@ -23,6 +23,7 @@ int main() {
     s21_decimal dec1 = {{1, 1, 0, 0}};
     s21_decimal dec2 = {{8, 0, 0, 0}};
     s21_decimal dec3 = {{0, 0, 0, 0}};
+    s21_negate(dec3, &dec3);
 
     s21_sub_simple(dec1, dec2, &dec3);
     print_bits(dec1);
