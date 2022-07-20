@@ -26,7 +26,7 @@ typedef struct
 
 // Арифметические операторы. Возвращают: 0 - ок, 1 - велико или +INF, 2 - мало или -INF, 3 - деление на 0
 
-    int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+    // int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
     // int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
     // int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
     // int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
@@ -59,6 +59,11 @@ typedef struct
 // Вспомогательные функции
 
     int shift_left(s21_decimal* dec);
+    int shift_right(s21_decimal* dec);
+    int signific_bits(s21_decimal dec); // Количество значащих битов
+    int s21_is_equal_simple(s21_decimal value_1, s21_decimal value_2);
+    int s21_is_greater_simple(s21_decimal value_1, s21_decimal value_2);
+    int s21_is_greater_or_equal_simple(s21_decimal value_1, s21_decimal value_2);
     int get_bit(s21_decimal dec, int bit_num);
     int put_bit(s21_decimal* dec, int bit_num, int bit);
     void print_bits(s21_decimal dec);
@@ -68,6 +73,7 @@ typedef struct
     int s21_add_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
     int s21_sub_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
     int s21_mul_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+    int s21_div_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 
 
 #endif //  SRC_S21_DECIMAL_H

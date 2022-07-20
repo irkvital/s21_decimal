@@ -101,6 +101,59 @@ int shift_left(s21_decimal* dec) {
     return flag;
 }
 
+int shift_right(s21_decimal* dec) {
+    int flag = (dec->bits[0] & 1) ? 1 : 0; // 1 - будет переполнение сдвиг невозможен
+    if (!flag) {
+        for (int byte = 2; byte >= 0; byte--) {
+            int flagn = (dec->bits[byte] & 1) ? 1 : 0;
+            dec->bits[byte] >>= 1;
+            dec->bits[byte] += (flag << 31);
+            flag = flagn;
+        }
+    }
+    return flag;
+}
+
+int signific_bits(s21_decimal dec) {
+    int count = 96;
+    s21_decimal tmp = dec;
+    while (!shift_left(&tmp) && count > 0) {
+        count--;
+    }
+    return count;
+}
+
+int s21_is_equal_simple(s21_decimal value_1, s21_decimal value_2) {
+    int flag = 1;
+    for (int byte = 2; byte >= 0 && flag == 1; byte--) {
+        if ((unsigned)value_1.bits[byte] != (unsigned)value_2.bits[byte]) {
+            flag = 0;
+        }
+    }
+    return flag;
+}
+
+int s21_is_greater_simple(s21_decimal value_1, s21_decimal value_2) {
+    int flag = 0;
+    for (int byte = 2; byte > 0 && flag == 0; byte--) {
+        if ((unsigned)value_1.bits[byte] > (unsigned)value_2.bits[byte]) {
+            flag = 1;
+        }
+        if ((unsigned)value_1.bits[byte] < (unsigned)value_2.bits[byte]) {
+            flag = - 1;
+        }
+    }
+    flag = (flag == 1) ? 1 : 0;
+    return flag;
+}
+
+int s21_is_greater_or_equal_simple(s21_decimal value_1, s21_decimal value_2) {
+    int flag = s21_is_equal_simple(value_1, value_2);
+    flag += s21_is_greater_simple(value_1, value_2);
+    flag = (flag == 0) ? 0 : 1;
+    return flag;
+}
+
 int s21_add_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     int flag = 0;
     for (int bit_num = 0; bit_num < 96; bit_num++) {
@@ -129,11 +182,7 @@ int s21_mul_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result
     int flag = 0;
     for (int i = 0; i < 3; i++) result->bits[i] = 0;
     // Количество значащих цифр во втором множителе
-    int count = 96;
-    s21_decimal tmp = value_2;
-    while (!shift_left(&tmp) && count > 0) {
-        count--;
-    }
+    int count = signific_bits(value_2);
     //  Умножение
     for (int i = 0; i < count; i++) {
         if (get_bit(value_2, i) == 1) {
@@ -143,3 +192,9 @@ int s21_mul_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result
     }
     return flag; // Добавить выводы ошибок при переполнении
 }
+
+// int s21_div_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+//     int num_bits_1 = signific_bits(value_1);
+//     int num_bits_2 = signific_bits(value_2);
+
+// }
