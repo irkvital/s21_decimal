@@ -107,7 +107,7 @@ int shift_right(s21_decimal* dec) {
         for (int byte = 2; byte >= 0; byte--) {
             int flagn = (dec->bits[byte] & 1) ? 1 : 0;
             dec->bits[byte] >>= 1;
-            dec->bits[byte] += (flag << 31);
+            put_bit(dec, 32 * byte + 31, flag);
             flag = flagn;
         }
     }
@@ -135,7 +135,7 @@ int s21_is_equal_simple(s21_decimal value_1, s21_decimal value_2) {
 
 int s21_is_greater_simple(s21_decimal value_1, s21_decimal value_2) {
     int flag = 0;
-    for (int byte = 2; byte > 0 && flag == 0; byte--) {
+    for (int byte = 2; byte >= 0 && flag == 0; byte--) {
         if ((unsigned)value_1.bits[byte] > (unsigned)value_2.bits[byte]) {
             flag = 1;
         }
@@ -193,8 +193,24 @@ int s21_mul_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result
     return flag; // Добавить выводы ошибок при переполнении
 }
 
-// int s21_div_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-//     int num_bits_1 = signific_bits(value_1);
-//     int num_bits_2 = signific_bits(value_2);
-
-// }
+s21_decimal s21_div_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+    for (int i = 0; i < 3; i++) result->bits[i] = 0;
+    int num_bits_1 = signific_bits(value_1);
+    int num_bits_2 = signific_bits(value_2);
+    // Выравниваем биты по левому краю
+    int diff = num_bits_1 - num_bits_2;
+    printf("diff %d\n", diff);
+    for (int i = 0; i < diff; i++) {
+        shift_left(&value_2);
+    }
+    // Деление
+    for (int i = 0; i <= diff; i++) {
+        shift_left(result);
+        if (s21_is_greater_or_equal_simple(value_1, value_2)) {
+            s21_sub_simple(value_1, value_2, &value_1);
+            result->bits[0] += 1;
+        }
+        shift_right(&value_2);
+    }
+    return value_1;
+}
