@@ -179,6 +179,7 @@ int s21_sub_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result
 }
 
 int s21_mul_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+    s21_decimal tmp = *result;
     int flag = 0;
     for (int i = 0; i < 3; i++) result->bits[i] = 0;
     // Количество значащих цифр во втором множителе
@@ -190,22 +191,22 @@ int s21_mul_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result
         }
         if (shift_left(&value_1)) flag = 1;
     }
+    if (flag) *result = tmp;
     return flag; // Добавить выводы ошибок при переполнении
 }
 
 s21_decimal s21_div_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-    for (int i = 0; i < 3; i++) result->bits[i] = 0;
+    // for (int i = 0; i < 3; i++) result->bits[i] = 0;  // Обнуление нужно только в сложной версии
     int num_bits_1 = signific_bits(value_1);
     int num_bits_2 = signific_bits(value_2);
-    // Выравниваем биты по левому краю
+    // Выравниваем биты второго числа по левому краю первого числа
     int diff = num_bits_1 - num_bits_2;
-    printf("diff %d\n", diff);
     for (int i = 0; i < diff; i++) {
         shift_left(&value_2);
     }
     // Деление
-    for (int i = 0; i <= diff; i++) {
-        shift_left(result);
+    for (int i = 0; i <= diff && !shift_left(result); i++) {
+        // shift_left(result);
         if (s21_is_greater_or_equal_simple(value_1, value_2)) {
             s21_sub_simple(value_1, value_2, &value_1);
             result->bits[0] += 1;
@@ -213,4 +214,32 @@ s21_decimal s21_div_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal
         shift_right(&value_2);
     }
     return value_1;
+}
+
+s21_decimal s21_div_full_bits(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+    s21_decimal ten = {{10, 0, 0, 0}};  // Тупо число 10 для умножения на него
+    s21_decimal two = {{2, 0, 0, 0}};  // Тупо число 2 для деления на него
+    s21_decimal mod = {{1, 0, 0, 0}};   // Остаток от деления
+    for (int i = 0; i < 3; i++) result->bits[i] = 0;
+    int num_bits_2 = signific_bits(*result);
+    int exp = -1;
+    // Выход если нет остатка от деления или заполнены все биты в result
+    while ((num_bits_2 < 95 || ) && (mod.bits[0] != 0  || mod.bits[1] != 0  || mod.bits[2] != 0)) {
+        exp++;
+        s21_mul_simple(*result, ten, result);
+        mod = s21_div_simple(value_1, value_2, result);
+        s21_div_simple(*result, mod, result);
+            char* f2 = dec_to_str(mod);
+            printf("dec2 || %s\n", f2);
+            free(f2);
+        while (s21_mul_simple(mod, ten, &mod)) {
+            // Случай большого остатка, не умножающегося на 10
+            s21_div_simple(mod, two, &mod);
+            s21_div_simple(value_2, two, &value_2);
+        }
+        num_bits_2 = signific_bits(*result);
+    }
+    // Изменение экспоненты
+    put_exp(result, exp);
+    return *result; // ? удалить? заменить на инт?
 }
