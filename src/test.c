@@ -20,17 +20,18 @@ int main() {
     printf("fl %.28f\n", fl);
     */
 
-    s21_decimal dec1 = {{52, 0, 0, 0}};
-    s21_decimal dec2 = {{10, 0, 0, 0}};
+    s21_decimal dec1 = {{100, 0, 0, 0}};
+    s21_decimal dec2 = {{30, 0, 0, 0}};
     // for (int i = 0; i < 28; i++) {
     //     printf("rep %d\n", s21_mul_simple(dec1, dec2, &dec1));
     // }
-    // s21_decimal dec3 = {{0, 0, 0, 0}};
+    s21_decimal dec3 = {{0, 0, 0, 0}};
+    s21_decimal dec4 = {{0, 0, 0, 0}};
     // s21_negate(dec3, &dec3);
 
 
-    s21_decimal dec3 = s21_div_simple(dec1, dec2, &dec3);
-    s21_decimal dec4 = s21_div_full_bits(dec1, dec2, &dec4);
+    dec3 = s21_div_simple(dec1, dec2, &dec3);
+    s21_div_full_bits(dec1, dec2, &dec4);
     print_bits(dec1);
     print_bits(dec2);
     print_bits(dec3);

@@ -196,7 +196,7 @@ int s21_mul_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result
 }
 
 s21_decimal s21_div_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-    // for (int i = 0; i < 3; i++) result->bits[i] = 0;  // Обнуление нужно только в сложной версии
+    for (int i = 0; i < 3; i++) result->bits[i] = 0;  // Обнуление нужно только в сложной версии
     int num_bits_1 = signific_bits(value_1);
     int num_bits_2 = signific_bits(value_2);
     // Выравниваем биты второго числа по левому краю первого числа
@@ -219,22 +219,19 @@ s21_decimal s21_div_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal
 s21_decimal s21_div_full_bits(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     s21_decimal ten = {{10, 0, 0, 0}};  // Тупо число 10 для умножения на него
     s21_decimal two = {{2, 0, 0, 0}};  // Тупо число 2 для деления на него
-    s21_decimal mod = {{1, 0, 0, 0}};   // Остаток от деления
+    s21_decimal tmp = {{0, 0, 0, 0}};
     for (int i = 0; i < 3; i++) result->bits[i] = 0;
     int num_bits_2 = signific_bits(*result);
     int exp = -1;
     // Выход если нет остатка от деления или заполнены все биты в result
-    while ((num_bits_2 < 95 || ) && (mod.bits[0] != 0  || mod.bits[1] != 0  || mod.bits[2] != 0)) {
+    while ((num_bits_2 < 95) && (value_1.bits[0] != 0  || value_1.bits[1] != 0  || value_1.bits[2] != 0)) {
         exp++;
         s21_mul_simple(*result, ten, result);
-        mod = s21_div_simple(value_1, value_2, result);
-        s21_div_simple(*result, mod, result);
-            char* f2 = dec_to_str(mod);
-            printf("dec2 || %s\n", f2);
-            free(f2);
-        while (s21_mul_simple(mod, ten, &mod)) {
+        value_1 = s21_div_simple(value_1, value_2, &tmp);   // value_1 -> value_1
+        s21_add_simple(*result, tmp, result);
+        while (s21_mul_simple(value_1, ten, &value_1)) {
             // Случай большого остатка, не умножающегося на 10
-            s21_div_simple(mod, two, &mod);
+            s21_div_simple(value_1, two, &value_1);
             s21_div_simple(value_2, two, &value_2);
         }
         num_bits_2 = signific_bits(*result);
