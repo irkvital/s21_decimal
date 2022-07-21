@@ -45,6 +45,13 @@ void put_exp(s21_decimal* dec, int exp) {
     }
 }
 
+int get_exp(s21_decimal dec) {
+    int out = dec.bits[3];
+    out <<= 1;
+    out >>= 16;
+    return out;
+}
+
 char* dec_to_str(s21_decimal dec) {
     char* out = (char*) calloc(32, sizeof(char));
     memset(out, '0', 29), out[29] = '\0', out[30] = '\0', out[31] = '\0';
@@ -222,7 +229,7 @@ s21_decimal s21_div_full_bits(s21_decimal value_1, s21_decimal value_2, s21_deci
     int err = 0;
     for (int i = 0; i < 3; i++) result->bits[i] = 0;
     int num_bits_2 = signific_bits(*result);
-    int exp = -1;
+    int exp = - 1;
     // Выход если нет остатка от деления или заполнены все биты в result
     while ((num_bits_2 < 96) && exp < 28 && !err && (value_1.bits[0] != 0 || value_1.bits[1] != 0
                                                                                 || value_1.bits[2] != 0)) {

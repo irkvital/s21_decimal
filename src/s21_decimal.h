@@ -68,6 +68,7 @@ typedef struct
     int put_bit(s21_decimal* dec, int bit_num, int bit);
     void print_bits(s21_decimal dec);
     void put_exp(s21_decimal* dec, int exp);
+    int get_exp(s21_decimal dec);
     char* dec_to_str(s21_decimal dec);
 
     int s21_add_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
