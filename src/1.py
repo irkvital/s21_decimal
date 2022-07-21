@@ -1,4 +1,4 @@
 from decimal import Decimal
 
-a = Decimal("3.166666666666666666666666667") / Decimal("1.166666666666666666666666667")
+a = Decimal("1") / Decimal("6")
 print(a)

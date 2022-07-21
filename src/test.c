@@ -20,8 +20,8 @@ int main() {
     printf("fl %.28f\n", fl);
     */
 
-    s21_decimal dec1 = {{100, 0, 0, 0}};
-    s21_decimal dec2 = {{30, 0, 0, 0}};
+    s21_decimal dec1 = {{1, 0, 0, 0}};
+    s21_decimal dec2 = {{6, 0, 0, 0}};
     // for (int i = 0; i < 28; i++) {
     //     printf("rep %d\n", s21_mul_simple(dec1, dec2, &dec1));
     // }

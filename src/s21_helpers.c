@@ -218,23 +218,35 @@ s21_decimal s21_div_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal
 
 s21_decimal s21_div_full_bits(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     s21_decimal ten = {{10, 0, 0, 0}};  // Тупо число 10 для умножения на него
-    s21_decimal two = {{2, 0, 0, 0}};  // Тупо число 2 для деления на него
-    s21_decimal tmp = {{0, 0, 0, 0}};
+    s21_decimal two = {{2, 0, 0, 0}};   // Тупо число 2 для деления на него
+    int err = 0;
     for (int i = 0; i < 3; i++) result->bits[i] = 0;
     int num_bits_2 = signific_bits(*result);
     int exp = -1;
     // Выход если нет остатка от деления или заполнены все биты в result
-    while ((num_bits_2 < 95) && (value_1.bits[0] != 0  || value_1.bits[1] != 0  || value_1.bits[2] != 0)) {
-        exp++;
-        s21_mul_simple(*result, ten, result);
-        value_1 = s21_div_simple(value_1, value_2, &tmp);   // value_1 -> value_1
-        s21_add_simple(*result, tmp, result);
-        while (s21_mul_simple(value_1, ten, &value_1)) {
-            // Случай большого остатка, не умножающегося на 10
-            s21_div_simple(value_1, two, &value_1);
-            s21_div_simple(value_2, two, &value_2);
+    while ((num_bits_2 < 96) && exp < 28 && !err && (value_1.bits[0] != 0 || value_1.bits[1] != 0
+                                                                                || value_1.bits[2] != 0)) {
+        s21_decimal tmp = {{0, 0, 0, 0}};
+        err = s21_mul_simple(*result, ten, result);
+        if (!err) {
+            exp++;
+            value_1 = s21_div_simple(value_1, value_2, &tmp);   // В value_1 записывается остаток от деления
+            s21_add_simple(*result, tmp, result);
+            while (s21_mul_simple(value_1, ten, &value_1)) {
+                // Случай большого остатка, не умножающегося на 10
+                s21_div_simple(value_1, two, &value_1);
+                s21_div_simple(value_2, two, &value_2);
+            }
+            num_bits_2 = signific_bits(*result);
         }
-        num_bits_2 = signific_bits(*result);
+        // Округление. Прибавляем 1 в конец, если округление в большую сторону
+        if (err || exp == 28) {
+            s21_div_simple(value_1, value_2, &tmp);
+            if (tmp.bits[0] >= 5) {
+                tmp.bits[0] = 1;
+                s21_add_simple(*result, tmp, result);
+            }
+        }
     }
     // Изменение экспоненты
     put_exp(result, exp);
