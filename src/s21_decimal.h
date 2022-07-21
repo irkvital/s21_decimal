@@ -29,7 +29,7 @@ typedef struct
     // int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
     // int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
     // int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
-    // int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+    int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
     // int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 
 
@@ -76,7 +76,9 @@ typedef struct
     int s21_mul_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
     // Возвращает остаток от деления (без учета знака и степеней)
     s21_decimal s21_div_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
-    s21_decimal s21_div_full_bits(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+    int s21_div_full_bits(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+    void centering(s21_decimal* value_1, s21_decimal* value_2);
+    void centering_simple(s21_decimal* value_1, s21_decimal* value_2, int exp_1, int exp_2);
 
 
 #endif //  SRC_S21_DECIMAL_H

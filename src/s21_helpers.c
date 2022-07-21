@@ -38,8 +38,8 @@ void print_bits(s21_decimal dec) {
 }
 
 void put_exp(s21_decimal* dec, int exp) {
-    exp = (exp > 28) ? 28 : exp; // хз, может и не нужно
-    for (int bit_num = 0; bit_num < 5; bit_num++) {
+    // exp = (exp > 28) ? 28 : exp; // хз, может и не нужно
+    for (int bit_num = 0; bit_num < 8; bit_num++) {
         put_bit(dec, bit_num + 112, exp & 0b1);
         exp >>= 1;
     }
@@ -48,7 +48,7 @@ void put_exp(s21_decimal* dec, int exp) {
 int get_exp(s21_decimal dec) {
     int out = dec.bits[3];
     out <<= 1;
-    out >>= 16;
+    out >>= 17;
     return out;
 }
 
@@ -81,6 +81,7 @@ char* dec_to_str(s21_decimal dec) {
     }
     // Вставка точки
     int point = (dec.bits[3] << 1) >> 17;
+    if (point > 28) point = 0;
     if (point) {
         memmove(out + 30 - point, out + 29 - point, point);
         out[29 - point] = '.';
@@ -223,7 +224,8 @@ s21_decimal s21_div_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal
     return value_1;
 }
 
-s21_decimal s21_div_full_bits(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+int s21_div_full_bits(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+    int out = 0;
     s21_decimal ten = {{10, 0, 0, 0}};  // Тупо число 10 для умножения на него
     s21_decimal two = {{2, 0, 0, 0}};   // Тупо число 2 для деления на него
     int err = 0;
@@ -257,5 +259,42 @@ s21_decimal s21_div_full_bits(s21_decimal value_1, s21_decimal value_2, s21_deci
     }
     // Изменение экспоненты
     put_exp(result, exp);
-    return *result; // ? удалить? заменить на инт?
+    if (result->bits[0] == 0 && result->bits[1] == 0 && result->bits[2] == 0) {
+        out = 2;
+        result->bits[3] = 0;
+    } 
+    return out;
+}
+
+void centering(s21_decimal* value_1, s21_decimal* value_2) {
+    int exp_1 = get_exp(*value_1);
+    int exp_2 = get_exp(*value_2);
+    if (exp_1 > exp_2) {
+        centering_simple(value_1, value_2, exp_1, exp_2);
+    } else if (exp_1 < exp_2) {
+        centering_simple(value_2, value_1, exp_2, exp_1);
+    }
+}
+
+// Степень value_1 > степени value_2
+void centering_simple(s21_decimal* value_1, s21_decimal* value_2, int exp_1, int exp_2) {
+    s21_decimal ten = {{10, 0, 0, 0}};
+    int diff = exp_1 - exp_2;
+
+    while (diff > 0 && !s21_mul_simple(*value_2, ten, value_2)) {
+        diff--;
+        exp_2++;
+    }
+    while (diff > 0) {
+        s21_decimal tmp = s21_div_simple(*value_1, ten, value_1);
+        diff--;
+        exp_1--;
+        // Округление
+        if (tmp.bits[0] >= 5) {
+            tmp.bits[0] = 1;
+            s21_add_simple(*value_1, tmp, value_1);
+        }
+    }
+    put_exp(value_1, exp_1);
+    put_exp(value_2, exp_2);
 }

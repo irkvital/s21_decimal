@@ -21,9 +21,11 @@ int main() {
     */
 
     s21_decimal dec1 = {{2, 0, 0, 0}};
-    put_exp(&dec1, 1);
+    put_exp(&dec1, 0);
+    put_bit(&dec1, 127, 1);
     s21_decimal dec2 = {{3, 0, 0, 0}};
-    put_exp(&dec2, 1);
+    put_exp(&dec2, 0);
+    put_bit(&dec2, 127, 0);
     // for (int i = 0; i < 28; i++) {
     //     printf("rep %d\n", s21_mul_simple(dec1, dec2, &dec1));
     // }
@@ -31,9 +33,10 @@ int main() {
     s21_decimal dec4 = {{0, 0, 0, 0}};
     // s21_negate(dec3, &dec3);
 
-
     dec3 = s21_div_simple(dec1, dec2, &dec3);
-    s21_div_full_bits(dec1, dec2, &dec4);
+    printf("RESULT %d\n", s21_div(dec1, dec2, &dec4));
+    // centering(&dec1, &dec2);
+
     print_bits(dec1);
     print_bits(dec2);
     print_bits(dec3);
