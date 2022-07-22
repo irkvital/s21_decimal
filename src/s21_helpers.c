@@ -226,8 +226,6 @@ s21_decimal s21_div_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal
 
 int s21_div_full_bits(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     int out = 0;
-    s21_decimal ten = {{10, 0, 0, 0}};  // Тупо число 10 для умножения на него
-    s21_decimal two = {{2, 0, 0, 0}};   // Тупо число 2 для деления на него
     int err = 0;
     for (int i = 0; i < 3; i++) result->bits[i] = 0;
     int num_bits_2 = signific_bits(*result);
@@ -236,15 +234,15 @@ int s21_div_full_bits(s21_decimal value_1, s21_decimal value_2, s21_decimal *res
     while ((num_bits_2 < 96) && exp < 28 && !err && (value_1.bits[0] != 0 || value_1.bits[1] != 0
                                                                                 || value_1.bits[2] != 0)) {
         s21_decimal tmp = {{0, 0, 0, 0}};
-        err = s21_mul_simple(*result, ten, result);
+        err = s21_mul_simple(*result, DEC_TEN, result);
         if (!err) {
             exp++;
             value_1 = s21_div_simple(value_1, value_2, &tmp);   // В value_1 записывается остаток от деления
             s21_add_simple(*result, tmp, result);
-            while (s21_mul_simple(value_1, ten, &value_1)) {
+            while (s21_mul_simple(value_1, DEC_TEN, &value_1)) {
                 // Случай большого остатка, не умножающегося на 10
-                s21_div_simple(value_1, two, &value_1);
-                s21_div_simple(value_2, two, &value_2);
+                s21_div_simple(value_1, DEC_TWO, &value_1);
+                s21_div_simple(value_2, DEC_TWO, &value_2);
             }
             num_bits_2 = signific_bits(*result);
         }
@@ -278,15 +276,13 @@ void centering(s21_decimal* value_1, s21_decimal* value_2) {
 
 // Степень value_1 > степени value_2
 void centering_simple(s21_decimal* value_1, s21_decimal* value_2, int exp_1, int exp_2) {
-    s21_decimal ten = {{10, 0, 0, 0}};
     int diff = exp_1 - exp_2;
-
-    while (diff > 0 && !s21_mul_simple(*value_2, ten, value_2)) {
+    while (diff > 0 && !s21_mul_simple(*value_2, DEC_TEN, value_2)) {
         diff--;
         exp_2++;
     }
     while (diff > 0) {
-        s21_decimal tmp = s21_div_simple(*value_1, ten, value_1);
+        s21_decimal tmp = s21_div_simple(*value_1, DEC_TEN, value_1);
         diff--;
         exp_1--;
         // Округление

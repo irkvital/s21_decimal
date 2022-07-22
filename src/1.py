@@ -1,5 +1,5 @@
 from decimal import Decimal
 
-number = Decimal("1.0") / Decimal("7922816240358387315128664064")
-number = number.quantize(Decimal("1.0000000000000000000000000000"))
+number = Decimal("2") / Decimal("0.003")
+# number = number.quantize(Decimal("1.000000000000000000000000000"))
 print(number)

@@ -24,7 +24,7 @@ int main() {
     put_exp(&dec1, 0);
     put_bit(&dec1, 127, 1);
     s21_decimal dec2 = {{3, 0, 0, 0}};
-    put_exp(&dec2, 0);
+    put_exp(&dec2, 3);
     put_bit(&dec2, 127, 0);
     // for (int i = 0; i < 28; i++) {
     //     printf("rep %d\n", s21_mul_simple(dec1, dec2, &dec1));
