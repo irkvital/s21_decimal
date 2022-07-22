@@ -19,14 +19,13 @@ int main() {
     s21_from_decimal_to_float(dec, &fl);
     printf("fl %.28f\n", fl);
     */
+    s21_decimal dec1 = {{2, 0, 0, 0}};
+    put_exp(&dec1, 0);
+    put_bit(&dec1, 127, 1);
 
-    s21_decimal dec1 = {{0, 0, 0, 0}};
-    put_exp(&dec1, 5);
-    put_bit(&dec1, 127, 0);
-
-    s21_decimal dec2 = {{0, 0, 0, 0}};
-    put_exp(&dec2, 3);
-    put_bit(&dec2, 127, 0);
+    s21_decimal dec2 = {{1, 0, 0, 0}};
+    put_exp(&dec2, 0);
+    put_bit(&dec2, 127, 1);
     // for (int i = 0; i < 28; i++) {
     //     printf("rep %d\n", s21_mul_simple(dec1, dec2, &dec1));
     // }
@@ -37,6 +36,8 @@ int main() {
     // dec3 = s21_div_simple(dec1, dec2, &dec3);
     // printf("RESULT %d\n", s21_div(dec1, dec2, &dec4));
     // centering(&dec1, &dec2);
+
+    printf("ADD %d\n", s21_add(dec1, dec2, &dec4));
 
     print_bits(dec1);
     print_bits(dec2);
@@ -59,7 +60,6 @@ int main() {
     printf("%s\n", f4);
     free(f4);
 
-    printf("RES %d\n", s21_is_greater_or_equal(dec1, dec2));
 
     return 0;
 }
