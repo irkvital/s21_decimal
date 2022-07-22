@@ -1,5 +1,6 @@
-from decimal import Decimal
+from decimal import getcontext, Decimal
 
-number = Decimal("2") / Decimal("0.003")
-# number = number.quantize(Decimal("1.000000000000000000000000000"))
-print(number)
+getcontext().prec = 29
+number = Decimal("0.000000000000000000000000001") / Decimal("6")
+number = number.quantize(Decimal(".0000000000000000000000000000"))
+print('{:f}'.format(number))

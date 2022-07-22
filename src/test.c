@@ -21,8 +21,9 @@ int main() {
     */
 
     s21_decimal dec1 = {{0, 0, 0, 0}};
-    put_exp(&dec1, 0);
-    put_bit(&dec1, 127, 1);
+    put_exp(&dec1, 5);
+    put_bit(&dec1, 127, 0);
+
     s21_decimal dec2 = {{0, 0, 0, 0}};
     put_exp(&dec2, 3);
     put_bit(&dec2, 127, 0);
@@ -40,7 +41,7 @@ int main() {
     print_bits(dec1);
     print_bits(dec2);
     print_bits(dec3);
-    
+    print_bits(dec4);
 
     char* f1 = dec_to_str(dec1);
     printf("dec1 || %s\n", f1);
@@ -57,6 +58,8 @@ int main() {
     char* f4 = dec_to_str(dec4);
     printf("%s\n", f4);
     free(f4);
+
+    printf("RES %d\n", s21_is_greater_or_equal(dec1, dec2));
 
     return 0;
 }
