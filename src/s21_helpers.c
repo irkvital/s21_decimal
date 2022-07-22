@@ -132,33 +132,33 @@ int signific_bits(s21_decimal dec) {
 }
 
 int s21_is_equal_simple(s21_decimal value_1, s21_decimal value_2) {
-    int flag = 1;
-    for (int byte = 2; byte >= 0 && flag == 1; byte--) {
+    int flag = TRUE;
+    for (int byte = 2; byte >= 0 && flag == TRUE; byte--) {
         if ((unsigned)value_1.bits[byte] != (unsigned)value_2.bits[byte]) {
-            flag = 0;
+            flag = FALSE;
         }
     }
     return flag;
 }
 
 int s21_is_greater_simple(s21_decimal value_1, s21_decimal value_2) {
-    int flag = 0;
-    for (int byte = 2; byte >= 0 && flag == 0; byte--) {
+    int flag = FALSE;
+    for (int byte = 2; byte >= 0 && flag == FALSE; byte--) {
         if ((unsigned)value_1.bits[byte] > (unsigned)value_2.bits[byte]) {
-            flag = 1;
+            flag = TRUE;
         }
         if ((unsigned)value_1.bits[byte] < (unsigned)value_2.bits[byte]) {
             flag = - 1;
         }
     }
-    flag = (flag == 1) ? 1 : 0;
+    flag = (flag == TRUE) ? TRUE : FALSE;
     return flag;
 }
 
 int s21_is_greater_or_equal_simple(s21_decimal value_1, s21_decimal value_2) {
     int flag = s21_is_equal_simple(value_1, value_2);
     flag += s21_is_greater_simple(value_1, value_2);
-    flag = (flag == 0) ? 0 : 1;
+    flag = (flag == FALSE) ? FALSE : TRUE;
     return flag;
 }
 
@@ -204,7 +204,7 @@ int s21_mul_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result
 }
 
 s21_decimal s21_div_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-    for (int i = 0; i < 3; i++) result->bits[i] = 0;  // Обнуление нужно только в сложной версии
+    for (int i = 0; i < 3; i++) result->bits[i] = 0;
     int num_bits_1 = signific_bits(value_1);
     int num_bits_2 = signific_bits(value_2);
     // Выравниваем биты второго числа по левому краю первого числа
@@ -214,7 +214,6 @@ s21_decimal s21_div_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal
     }
     // Деление
     for (int i = 0; i <= diff && !shift_left(result); i++) {
-        // shift_left(result);
         if (s21_is_greater_or_equal_simple(value_1, value_2)) {
             s21_sub_simple(value_1, value_2, &value_1);
             result->bits[0] += 1;

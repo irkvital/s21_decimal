@@ -1,5 +1,9 @@
 #include "./s21_decimal.h"
 
+// int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+
+// }
+
 int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     int out = 0;
     if (value_2.bits[0] == 0 && value_2.bits[1] == 0 && value_2.bits[2] == 0) {
@@ -15,8 +19,7 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     }
     int sign_1 = get_bit(value_1, 127);
     int sign_2 = get_bit(value_2, 127);
-    int sign = sign_1 ^ sign_2;
+    int sign = sign_1 ^ sign_2;  // Исключающее или
     put_bit(result, 127, sign);
-
     return out;
 }
