@@ -30,10 +30,10 @@ typedef struct
 // Арифметические операторы. Возвращают: 0 - ок, 1 - велико или +INF, 2 - мало или -INF, 3 - деление на 0
 
     int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
-    // int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
-    // int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+    int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+    int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
     int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
-    // int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+    int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 
 
 // Операторы сравнения. Возвращают: 0 - FALSE, 1 - TRUE
