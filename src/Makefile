@@ -28,7 +28,7 @@ REPORT_NAME = 	report
 
 .PHONY: all test gcov_report
 
-#all: $(MYLIB) gcov_report
+#all: $(MYLIB) 
 all: test
 	./$(NAME)
 

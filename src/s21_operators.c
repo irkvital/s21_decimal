@@ -20,6 +20,7 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
         }
     }
     put_bit(result, 127, sign);
+    put_exp(result, get_exp(value_1));
     if (out != 0 && sign == MINUS) out = 2;
     return out;
 }
