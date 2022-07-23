@@ -33,7 +33,7 @@ typedef struct
     int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
     int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
     int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
-    // int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+    int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 
 
 // Операторы сравнения. Возвращают: 0 - FALSE, 1 - TRUE

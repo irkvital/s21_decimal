@@ -67,3 +67,11 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     put_bit(result, 127, sign);
     return out;
 }
+
+int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+    int out = 0;
+    centering(&value_1, &value_2);
+    *result = s21_div_simple(value_1, value_2, &value_2);
+    put_bit(result, 127, get_bit(value_1, 127));
+    return out;  // Что-то доделать надо
+}
