@@ -19,11 +19,11 @@ int main() {
     s21_from_decimal_to_float(dec, &fl);
     printf("fl %.28f\n", fl);
     */
-    s21_decimal dec1 = {{ MAX_INT,  MAX_INT,  MAX_INT, 0}};
-    put_exp(&dec1, 0);
-    put_bit(&dec1, 127, 1);
+    s21_decimal dec1 = {{1, 0,  0, 0}};
+    put_exp(&dec1, 28);
+    put_bit(&dec1, 127, 0);
 
-    s21_decimal dec2 = {{ MAX_INT,  MAX_INT, MAX_INT, 0}};
+    s21_decimal dec2 = {{100, 0, 0, 0}};
     put_exp(&dec2, 0);
     put_bit(&dec2, 127, 0);
     // for (int i = 0; i < 28; i++) {
@@ -37,7 +37,7 @@ int main() {
     // printf("RESULT %d\n", s21_div(dec1, dec2, &dec4));
     // centering(&dec1, &dec2);
 
-    printf("SUB %d\n", s21_sub(dec1, dec2, &dec4));
+    printf("DIV %d\n", s21_div(dec1, dec2, &dec4));
 
     print_bits(dec1);
     print_bits(dec2);

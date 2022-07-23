@@ -200,7 +200,7 @@ int s21_mul_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result
         if (shift_left(&value_1)) flag = 1;
     }
     if (flag) *result = tmp;
-    return flag; // Добавить выводы ошибок при переполнении
+    return flag; // 1 - ошибка переполнения
 }
 
 s21_decimal s21_div_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
