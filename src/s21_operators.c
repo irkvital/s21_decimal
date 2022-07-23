@@ -24,6 +24,12 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     return out;
 }
 
+int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+    s21_negate(value_2, &value_2);
+    int out = s21_add(value_1, value_2, result);
+    return out;
+}
+
 int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     int out = 0;
     if (value_2.bits[0] == 0 && value_2.bits[1] == 0 && value_2.bits[2] == 0) {
