@@ -33,19 +33,32 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 
 int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     int out = 0;
-    centering(&value_1, &value_2);
-    out = s21_mul_simple(value_1, value_2, result);
-
     int tmp_1 = get_bit(value_1, 127);
     int tmp_2 = get_bit(value_2, 127);
-    int tmp_res = tmp_1 ^ tmp_2;  // Исключающее или
-    put_bit(result, 127, tmp_res);
+    int sign_res = tmp_1 ^ tmp_2;  // Исключающее или
+    put_bit(result, 127, sign_res);
 
-    tmp_1 = get_exp(value_1);
-    tmp_2 = get_exp(value_2);
-    tmp_res = tmp_1 + tmp_2;
-    put_exp(result, tmp_res);
-    out = (tmp_res > 28) ? 2 : out;
+    centering(&value_1, &value_2);
+    out = s21_mul_simple(value_1, value_2, result);
+    if (out == 0) {
+        tmp_1 = get_exp(value_1);
+        tmp_2 = get_exp(value_2);
+        int exp_res = tmp_1 + tmp_2;
+        put_exp(result, exp_res);
+        out = (exp_res > 28) ? 2 : out;
+    } else {
+        // Формирования децимала при +inf и -inf
+        for (int i = 0; i < 3; i++) result->bits[i] = MAX_INT;
+        put_exp(result, 0);
+        if (sign_res == PLUS) {
+            put_bit(result, 127, PLUS);
+        } else {
+            put_bit(result, 127, MINUS);
+            out = 2;
+        }
+    }
+
+
     return out;
 }
 

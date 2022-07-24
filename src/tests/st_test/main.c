@@ -216,15 +216,15 @@ int main() {
     // run_float_to_dec_test(10);
     // clear_input();
 
-    clear_input();
-    printf(COLOR_GREEN "INT_TO_DEC:\n" COLOR_END);
-    run_int_to_dec_test(10);
-    clear_input();
+    // clear_input();
+    // printf(COLOR_GREEN "INT_TO_DEC:\n" COLOR_END);
+    // run_int_to_dec_test(10);
+    // clear_input();
 
-    clear_input();
-    printf(COLOR_GREEN "EQ TEST:\n" COLOR_END);
-    run_eq_test(10);
-    clear_input();
+    // clear_input();
+    // printf(COLOR_GREEN "EQ TEST:\n" COLOR_END);
+    // run_eq_test(10);
+    // clear_input();
 
     // clear_input();
     // printf(COLOR_GREEN "LESS TEST:\n" COLOR_END);

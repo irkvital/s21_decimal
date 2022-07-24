@@ -2,7 +2,6 @@
 #include <math.h>
 #include "./s21_decimal.h"
 
-#define  MAX_INT (unsigned)4294967295
 
 int main() {
     /*
@@ -19,13 +18,13 @@ int main() {
     s21_from_decimal_to_float(dec, &fl);
     printf("fl %.28f\n", fl);
     */
-    s21_decimal dec1 = {{1984684, 1000,  0, 0}};
-    put_exp(&dec1, 5);
-    put_bit(&dec1, 127, 0);
+    s21_decimal dec1 = {{604814663, 0, 0, 0}};
+    put_exp(&dec1, 4);
+    put_bit(&dec1, 127, 1);
 
-    s21_decimal dec2 = {{4864, 0, 5, 0}};
-    put_exp(&dec2, 10);
-    put_bit(&dec2, 127, 0);
+    s21_decimal dec2 = {{0, 99759684, 43, 0}};
+    put_exp(&dec2, 5);
+    put_bit(&dec2, 127, 1);
     // for (int i = 0; i < 28; i++) {
     //     printf("rep %d\n", s21_mul_simple(dec1, dec2, &dec1));
     // }
@@ -37,7 +36,7 @@ int main() {
     // printf("RESULT %d\n", s21_div(dec1, dec2, &dec4));
     // centering(&dec1, &dec2);
 
-    printf("DIV %d\n", s21_add(dec1, dec2, &dec4));
+    printf("SUB %d\n", s21_mul(dec1, dec2, &dec4));
 
     print_bits(dec1);
     print_bits(dec2);

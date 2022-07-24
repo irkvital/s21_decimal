@@ -14,6 +14,7 @@
 #define FALSE   0
 #define MAX_EXP 28
 #define LEFT_BIT (1 << 31)
+#define  MAX_INT (unsigned)4294967295
 
 // bits[0] - младшие биты 0-31
 // bits[1] - средние биты 32-63

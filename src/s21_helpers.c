@@ -193,11 +193,11 @@ int s21_mul_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result
     // Количество значащих цифр во втором множителе
     int count = signific_bits(value_2);
     //  Умножение
-    for (int i = 0; i < count; i++) {
+    for (int i = 0; i < count && flag == 0; i++) {
         if (get_bit(value_2, i) == 1) {
-            s21_add_simple(*result, value_1, result);
+            flag = s21_add_simple(*result, value_1, result);
         }
-        if (shift_left(&value_1)) flag = 1;
+        if (shift_left(&value_1) && i != count - 1) flag = 1;            // && i != count) ////////////////////////////////////////////
     }
     if (flag) *result = tmp;
     return flag; // 1 - ошибка переполнения
