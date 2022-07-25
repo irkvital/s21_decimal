@@ -1,4 +1,4 @@
-#include "./s21_decimal.h"i
+#include "./s21_decimal.h"
 #define hint 2147483648
 #define lint -2147483649
 
@@ -29,8 +29,8 @@ int s21_from_decimal_to_int(s21_decimal src, int *dst) {
 
 
 int s21_from_int_to_decimal(int src, s21_decimal* dst){
-    unsigned int out = MAX_INT - src + 1;
-    dst.bits[0] = out;
+    unsigned int out = hint - src + 1;
+    dst->bits[0] = out;
     
 
 
@@ -46,5 +46,5 @@ int s21_from_int_to_decimal(int src, s21_decimal* dst){
 //            put_bit(dst, i, mod);
 //        }
 //    } else { flag = 1; } 
-return flag;
+return out;
 }

@@ -38,8 +38,8 @@ typedef struct
 
 // Операторы сравнения. Возвращают: 0 - FALSE, 1 - TRUE
 
-    // int s21_is_less(s21_decimal value_1, s21_decimal value_2);
-    // int s21_is_less_or_equal(s21_decimal value_1, s21_decimal value_2);
+    int s21_is_less(s21_decimal value_1, s21_decimal value_2);
+    int s21_is_less_or_equal(s21_decimal value_1, s21_decimal value_2);
     int s21_is_greater(s21_decimal value_1, s21_decimal value_2);
     int s21_is_greater_or_equal(s21_decimal value_1, s21_decimal value_2);
     int s21_is_equal(s21_decimal value_1, s21_decimal value_2);
@@ -82,6 +82,9 @@ typedef struct
     int s21_div_full_bits(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
     void centering(s21_decimal* value_1, s21_decimal* value_2);
     void centering_simple(s21_decimal* value_1, s21_decimal* value_2, int exp_1, int exp_2);
+    // Всратые фун-ии для сравнения
+    int search_len(s21_decimal val);
+
 
 
 #endif //  SRC_S21_DECIMAL_H
