@@ -228,7 +228,7 @@ int s21_div_full_bits(s21_decimal value_1, s21_decimal value_2, s21_decimal *res
     int err = 0;
     for (int i = 0; i < 3; i++) result->bits[i] = 0;
     int num_bits_2 = signific_bits(*result);
-    int exp = - 1;
+    int exp = get_exp(value_1) - get_exp(value_2) - 1;
     // Выход если нет остатка от деления или заполнены все биты в result
     while ((num_bits_2 < 96) && exp < 28 && !err && (value_1.bits[0] != 0 || value_1.bits[1] != 0
                                                                                 || value_1.bits[2] != 0)) {
@@ -258,8 +258,8 @@ int s21_div_full_bits(s21_decimal value_1, s21_decimal value_2, s21_decimal *res
     put_exp(result, exp);
     if (result->bits[0] == 0 && result->bits[1] == 0 && result->bits[2] == 0) {
         out = 2;
-        result->bits[3] = 0;
-    } 
+        // result->bits[3] = 0;
+    }
     return out;
 }
 
@@ -292,4 +292,13 @@ void centering_simple(s21_decimal* value_1, s21_decimal* value_2, int exp_1, int
     }
     put_exp(value_1, exp_1);
     put_exp(value_2, exp_2);
+}
+
+s21_decimal div_ten(s21_decimal* dec) {
+    s21_decimal out = {{0, 0, 0, 0}};
+    int exp_1 = get_exp(*dec);
+    out = s21_div_simple(*dec, DEC_TEN, dec);
+    exp_1--;
+    put_exp(dec, exp_1);
+    return out;
 }

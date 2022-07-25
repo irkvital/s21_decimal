@@ -1,5 +1,5 @@
 CC 			=	gcc
-CFLAGS 		=	-Wall -Wextra -std=c11 -O0
+CFLAGS 		=	-Wall -Wextra -std=c11
 GCOV_FLAGS 	= 	-fprofile-arcs -ftest-coverage
 CHECK_FLAGS =	-lcheck -lm -lpthread 
 FLAGS 		=	$(CFLAGS) $(CHECK_FLAGS) $(GCOV_FLAGS)
