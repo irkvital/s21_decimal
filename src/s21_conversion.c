@@ -1,4 +1,6 @@
-#include "./s21_decimal.h"
+#include "./s21_decimal.h"i
+#define hint 2147483648
+#define lint -2147483649
 
 int s21_from_decimal_to_float(s21_decimal src, float *dst) {
     int out = 0;
@@ -14,23 +16,35 @@ int s21_from_decimal_to_float(s21_decimal src, float *dst) {
 
 
 int s21_from_decimal_to_int(s21_decimal src, int *dst) {
-    int flag = 0;
-    char* tmp;
-   for (int i = 32; i < 96; i++) {
-        if (get_bit(src, i)) {
-            printf("huge val\n");
-            return 1;
-            flag = 1;
-            break;
-            }
-        }
+    int res = 0;
+    char* tmp = dec_to_str(src);     
+    long int tmp_res = (int)strtod(tmp, NULL);
+    free(tmp);
+    if (tmp_res > hint && tmp_res < lint) {
+        res = 1;
+    } else {
+        *dst = tmp_res; }
+    return res;
+}
+
+
+int s21_from_int_to_decimal(int src, s21_decimal* dst){
+    unsigned int out = MAX_INT - src + 1;
+    dst.bits[0] = out;
     
-    if (flag == 0)
-        tmp = dec_to_str(src);
-        *dst = strtof(tmp, NULL);
-/*        if (get_bit(src, 127)) {
-            (*dst) *= 1;
-            printf("catch sign\n");
-            }*/
-    return 0;
+
+
+//    int mod, full = src, flag = 0;
+//    if (src < hint && src > lint) {
+//        if (src < 0)
+//            put_bit(dst, 127, 1);
+//        src = abs(src);
+//        for(int i = 0; full; i++) {
+//            full = src / 2;
+//            mod = src % 2;
+//            src = full;
+//            put_bit(dst, i, mod);
+//        }
+//    } else { flag = 1; } 
+return flag;
 }

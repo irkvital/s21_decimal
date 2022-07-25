@@ -3,7 +3,11 @@
 int get_bit(s21_decimal dec, int bit_num) {
     int out = - 1;
     if (bit_num >= 0 && bit_num < 128) {
+//        int val1 = dec.bits[bit_num / 32];
+//        int val2 = (1 << bit_num % 32);
         out = (dec.bits[bit_num / 32] & (1 << bit_num % 32)) ? 1 : 0;
+//        printf("dec_bits %d\nleft shift %d\nout %d\n", val1, val2, out);
+
     }
     return out;
 }
@@ -61,6 +65,7 @@ char* dec_to_str(s21_decimal dec) {
             exptwo[i] = symbol % 10 + '0';
             flag = symbol / 10;
         }
+//        printf("out %s\nexp %s\n\n", out, exptwo);
         // Сложение строк
         if (get_bit(dec, bit_num)) {
             flag = 0;
