@@ -24,23 +24,26 @@ typedef struct
     int bits[4];
 } s21_decimal;
 
+#define DEC_TEN (s21_decimal) {{10, 0, 0, 0}}
+#define DEC_TWO (s21_decimal) {{2, 0, 0, 0}}
+
 // Арифметические операторы. Возвращают: 0 - ок, 1 - велико или +INF, 2 - мало или -INF, 3 - деление на 0
 
     int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
-    // int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
-    // int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
-    // int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
-    // int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+    int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+    int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+    int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+    int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
 
 
 // Операторы сравнения. Возвращают: 0 - FALSE, 1 - TRUE
 
-    // int s21_is_less(s21_decimal, s21_decimal);
-    // int s21_is_less_or_equal(s21_decimal, s21_decimal);
-    // int s21_is_greater(s21_decimal, s21_decimal);
-    // int s21_is_greater_or_equal(s21_decimal, s21_decimal);
-    // int s21_is_equal(s21_decimal, s21_decimal);
-    // int s21_is_not_equal(s21_decimal, s21_decimal);
+    // int s21_is_less(s21_decimal value_1, s21_decimal value_2);
+    // int s21_is_less_or_equal(s21_decimal value_1, s21_decimal value_2);
+    int s21_is_greater(s21_decimal value_1, s21_decimal value_2);
+    int s21_is_greater_or_equal(s21_decimal value_1, s21_decimal value_2);
+    int s21_is_equal(s21_decimal value_1, s21_decimal value_2);
+    // int s21_is_not_equal(s21_decimal value_1, s21_decimal value_2);
 
 // Преобразователи. Возвращают: 0 - OK, 1 - ошибка конвертации
 
@@ -59,14 +62,26 @@ typedef struct
 // Вспомогательные функции
 
     int shift_left(s21_decimal* dec);
+    int shift_right(s21_decimal* dec);
+    int signific_bits(s21_decimal dec); // Количество значащих битов
+    int s21_is_equal_simple(s21_decimal value_1, s21_decimal value_2);
+    int s21_is_greater_simple(s21_decimal value_1, s21_decimal value_2);
+    int s21_is_greater_or_equal_simple(s21_decimal value_1, s21_decimal value_2);
     int get_bit(s21_decimal dec, int bit_num);
     int put_bit(s21_decimal* dec, int bit_num, int bit);
     void print_bits(s21_decimal dec);
     void put_exp(s21_decimal* dec, int exp);
+    int get_exp(s21_decimal dec);
     char* dec_to_str(s21_decimal dec);
 
     int s21_add_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
     int s21_sub_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+    int s21_mul_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+    // Возвращает остаток от деления (без учета знака и степеней)
+    s21_decimal s21_div_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+    int s21_div_full_bits(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
+    void centering(s21_decimal* value_1, s21_decimal* value_2);
+    void centering_simple(s21_decimal* value_1, s21_decimal* value_2, int exp_1, int exp_2);
 
 
 #endif //  SRC_S21_DECIMAL_H
