@@ -13,22 +13,22 @@ int main() {
     put_exp(&dec2, 5);
     put_bit(&dec2, 127, 1);
 */
-    s21_decimal dec1 = {{50, 0, 0, 0}};
-    put_exp(&dec1, 28);
-    put_bit(&dec1, 127, 1);
+    s21_decimal dec1 = {{0, 0, 50549865, 0}};
+    put_exp(&dec1, 25);
+    put_bit(&dec1, 127, 0);
 
     s21_decimal dec2 = {{0, 0, MAX_INT, 0}};
-    put_exp(&dec2, 0);
+    put_exp(&dec2, 25);
     put_bit(&dec2, 127, 1);
     
-    s21_decimal dec3 = {{0, 0, 0, 0}};
+    // s21_decimal dec3 = {{0, 0, 0, 0}};
     s21_decimal dec4 = {{0, 0, 0, 0}};
 
-    printf("MID %d\n", s21_div(dec1, dec2, &dec4));
+    printf("MID %d\n", s21_mul(dec1, dec2, &dec4));
 
     print_bits(dec1);
     print_bits(dec2);
-    print_bits(dec3);
+    // print_bits(dec3);
     print_bits(dec4);
 
     char* f1 = dec_to_str(dec1);
@@ -39,9 +39,9 @@ int main() {
     printf("dec2 || %s\n", f2);
     free(f2);
 
-    char* f3 = dec_to_str(dec3);
-    printf("res1 || %s\n", f3);
-    free(f3);
+    // char* f3 = dec_to_str(dec3);
+    // printf("res1 || %s\n", f3);
+    // free(f3);
 
     char* f4 = dec_to_str(dec4);
     printf("%s\n", f4);
