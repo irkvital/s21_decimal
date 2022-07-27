@@ -13,12 +13,12 @@ int main() {
     put_exp(&dec2, 5);
     put_bit(&dec2, 127, 1);
 */
-    s21_decimal dec1 = {{0, 0, 23546767, 0}};
-    put_exp(&dec1, 5);
+    s21_decimal dec1 = {{50, 0, 0, 0}};
+    put_exp(&dec1, 28);
     put_bit(&dec1, 127, 1);
 
-    s21_decimal dec2 = {{0, 0, 0, 0}};
-    put_exp(&dec2, 6);
+    s21_decimal dec2 = {{0, 0, MAX_INT, 0}};
+    put_exp(&dec2, 0);
     put_bit(&dec2, 127, 1);
     
     s21_decimal dec3 = {{0, 0, 0, 0}};

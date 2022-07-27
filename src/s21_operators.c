@@ -125,6 +125,7 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     int sign_2 = get_bit(value_2, 127);
     int sign = sign_1 ^ sign_2;  // Исключающее или
     put_bit(result, 127, sign);
+    if (out == 1 && sign == MINUS) out = 2;
     return out;
 }
 

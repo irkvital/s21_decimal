@@ -238,27 +238,31 @@ int s21_div_full_bits(s21_decimal value_1, s21_decimal value_2, s21_decimal *res
             exp++;
             value_1 = s21_div_simple(value_1, value_2, &tmp);   // В value_1 записывается остаток от деления
             s21_add_simple(*result, tmp, result);
-            while (s21_mul_simple(value_1, DEC_TEN, &value_1)) {
-                // Случай большого остатка, не умножающегося на 10
-                s21_div_simple(value_1, DEC_TWO, &value_1);
-                s21_div_simple(value_2, DEC_TWO, &value_2);
-            }
+            s21_mul_simple(value_1, DEC_TEN, &value_1);
             num_bits_2 = signific_bits(*result);
         }
         // Округление. Прибавляем 1 в конец, если округление в большую сторону
         if (err || exp == 28) {
-            s21_div_simple(value_1, value_2, &tmp);
-            if (tmp.bits[0] >= 5) {
-                tmp.bits[0] = 1;
-                s21_add_simple(*result, tmp, result);
+            s21_decimal tmp_end = {{0, 0, 0, 0}};
+            s21_div_simple(value_1, value_2, &tmp_end);
+            // Банковское округление к ближайшему четному
+            if (tmp_end.bits[0] > 5 || (tmp_end.bits[0] == 5 && tmp.bits[0] % 2 == 1)) {
+                tmp_end.bits[0] = 1;
+                s21_add_simple(*result, tmp_end, result);
             }
         }
     }
     // Изменение экспоненты
+    err = 0;
+    while (exp < 0 && !err) {
+        exp++;
+        err = s21_mul_simple(*result, DEC_TEN, result);
+    }
     put_exp(result, exp);
     if (result->bits[0] == 0 && result->bits[1] == 0 && result->bits[2] == 0) {
-        out = 2;
-        // result->bits[3] = 0;
+        // out = 2;     // Как по мне нужно код ошибки 2, если число близко к нулю, т.е. очень мало
+    } else if (err) {
+        out = 1;
     }
     return out;
 }
