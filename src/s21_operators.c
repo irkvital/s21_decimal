@@ -31,114 +31,66 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     return out;
 }
 
+int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+    s21_decimal dec10 = {{1410065408, 2, 0, 0}};
+    int exp1 = get_exp(value_1);
+    int exp2 = get_exp(value_2);
+    s21_decimal tmp = DEC_NUL;
+    *result = DEC_NUL;
+    // Формирование 3х слагаемых каждого множителя
+    s21_decimal deca[3];
+    s21_decimal decb[3];
+    deca[2] = value_1;
+    decb[2] = value_2;
+    for (int i = 2; i >= 0; i--) {
+        if (i > 0) {
+            deca[i] = s21_div_simple(deca[i], dec10, &deca[i - 1]);
+            decb[i] = s21_div_simple(decb[i], dec10, &decb[i - 1]);
+        }
+        put_exp(&deca[i], exp1);
+        put_exp(&decb[i], exp2);
+        exp1 -= 10;
+        exp2 -= 10;
+    }
+    // Попарное перемножение слагаемых и суммирование
+    for (int i = 2; i >= 0; i--) {
+        for (int j = 2; j >= 0; j--) {
+            int expa = get_exp(deca[i]);
+            int expb = get_exp(decb[j]);
+            s21_mul_simple(deca[i], decb[j], &tmp);
+            put_exp(&tmp, expa + expb);
+            s21_add(*result, tmp, result);
+        }
+    }
+}
+
 // int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 //     int out = 0;
-//     int tmp_1 = get_bit(value_1, 127);
-//     int tmp_2 = get_bit(value_2, 127);
-//     int sign_res = tmp_1 ^ tmp_2;  // Исключающее или
+//     for (int i = 0; i < 4; i++) result->bits[i] = 0;
+//     int sign_res = get_bit(value_1, 127) ^ get_bit(value_2, 127);  // Исключающее или
 //     put_bit(result, 127, sign_res);
-
-//     centering(&value_1, &value_2);
-
-//     tmp_1 = get_exp(value_1);
-//     tmp_2 = get_exp(value_2);
-//     int exp_res = tmp_1 + tmp_2;
-//     put_exp(result, exp_res);
-
-//     out = s21_mul_simple(value_1, value_2, result);
-//     if (out == 0) {
-//         out = (exp_res > 28) ? 2 : out;
-//     } else {
-//         // Формирования децимала при +inf и -inf
-//         for (int i = 0; i < 3; i++) result->bits[i] = MAX_INT;
-//         put_exp(result, 0);
-//         if (sign_res == PLUS) {
-//             put_bit(result, 127, PLUS);
-//         } else {
-//             put_bit(result, 127, MINUS);
-//             out = 2;
-//         }
-//     }
-//     return out;
-// }
-
-// int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-//     int out = 0;
-//     int tmp_1 = get_bit(value_1, 127);
-//     int tmp_2 = get_bit(value_2, 127);
-//     int sign_res = tmp_1 ^ tmp_2;  // Исключающее или
-//     put_bit(result, 127, sign_res);
-
-//     s21_decimal dt_1 = {{0 ,0 ,0 ,0}};
-//     s21_decimal dt_2 = {{0 ,0 ,0 ,0}};
-
-//     // Деление на 10 для избежания переполнения при больших дробных частях
-//     tmp_1 = signific_bits(value_1);
-//     tmp_2 = signific_bits(value_2);
+//     put_bit(&value_1, 127, sign_res);
+//     put_bit(&value_2, 127, sign_res);
+//     s21_decimal dec_tmp = {{0, 0, 0, 0}};
+//     // if (s21_mul_simple(value_1, DEC_TEN, &dec_tmp)) {
+//     //     int exp = get_exp(value_1);
+//     //     exp--;
+//     //     s21_div_simple(value_1, DEC_TEN, &value_1);
+//     //     put_exp(&value_1, exp);
+//     // }
 //     int exp_1 = get_exp(value_1);
 //     int exp_2 = get_exp(value_2);
-//     while (tmp_1 + tmp_2 > 96 && (exp_1 > 0 || exp_2 > 0)) {
-//         if (tmp_1 > 1 && exp_1 >= exp_2) {
-//             dt_1 = div_ten(&value_1);
-//             exp_1 = get_exp(value_1);
-//         } else if (exp_2 > 0) {
-//             dt_2 = div_ten(&value_2);
-//             exp_2 = get_exp(value_2);
-//         }
-//         tmp_1 = signific_bits(value_1);
-//         tmp_2 = signific_bits(value_2);
-//     }
-//     if (dt_1.bits[0] >= 5) s21_add(value_1, dt_1, &value_1);
-//     if (dt_2.bits[0] >= 5) s21_add(value_2, dt_2, &value_2);
-
 //     int exp_res = exp_1 + exp_2;
-//     put_exp(result, exp_res);
 
-//     out = s21_mul_simple(value_1, value_2, result);
-//     if (out == 0) {
-//         out = (exp_res > 28) ? 2 : 0;
-//     } else {
-//         // Формирования децимала при +inf и -inf
-//         for (int i = 0; i < 3; i++) result->bits[i] = MAX_INT;
-//         put_exp(result, 0);
-//         if (sign_res == PLUS) {
-//             put_bit(result, 127, PLUS);
-//             out = 1;
-//         } else {
-//             put_bit(result, 127, MINUS);
-//             out = 2;
-//         }
-//     }
+//     do {
+//         dec_tmp = s21_div_simple(value_2, DEC_TEN, &value_2);   // Получение цифры
+//         s21_mul_simple(value_1, dec_tmp, &dec_tmp);  // Умножение первого числа на цифру разряда второго
+//         put_exp(&dec_tmp, exp_res);
+//         s21_add(*result, dec_tmp, result);
+//         exp_res--;
+//     } while ((value_2.bits[0] != 0 || value_2.bits[1] != 0 || value_2.bits[2] != 0) && exp_res >= 0);
 //     return out;
 // }
-
-int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-    int out = 0;
-    for (int i = 0; i < 4; i++) result->bits[i] = 0;
-    int sign_res = get_bit(value_1, 127) ^ get_bit(value_2, 127);  // Исключающее или
-    put_bit(result, 127, sign_res);
-    put_bit(&value_1, 127, sign_res);
-    put_bit(&value_2, 127, sign_res);
-    s21_decimal dec_tmp = {{0, 0, 0, 0}};
-    // if (s21_mul_simple(value_1, DEC_TEN, &dec_tmp)) {
-    //     int exp = get_exp(value_1);
-    //     exp--;
-    //     s21_div_simple(value_1, DEC_TEN, &value_1);
-    //     put_exp(&value_1, exp);
-    // }
-    int exp_1 = get_exp(value_1);
-    int exp_2 = get_exp(value_2);
-    int exp_res = exp_1 + exp_2;
-
-    do {
-        dec_tmp = s21_div_simple(value_2, DEC_TEN, &value_2);   // Получение цифры
-        s21_mul_simple(value_1, dec_tmp, &dec_tmp);  // Умножение первого числа на цифру разряда второго
-        put_exp(&dec_tmp, exp_res);
-        s21_add(*result, dec_tmp, result);
-        exp_res--;
-    } while ((value_2.bits[0] != 0 || value_2.bits[1] != 0 || value_2.bits[2] != 0) && exp_res >= 0);
-    return out;
-}
 
 int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     int out = 0;
