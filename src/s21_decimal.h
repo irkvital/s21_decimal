@@ -27,6 +27,7 @@ typedef struct
 
 #define DEC_TEN (s21_decimal) {{10, 0, 0, 0}}
 #define DEC_TWO (s21_decimal) {{2, 0, 0, 0}}
+#define DEC_NUL (s21_decimal) {{0, 0, 0, 0}}
 
 
 // Арифметические операторы. Возвращают: 0 - ок, 1 - велико или +INF, 2 - мало или -INF, 3 - деление на 0
