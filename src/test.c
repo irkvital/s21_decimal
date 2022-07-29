@@ -4,13 +4,25 @@
 
 
 int main() {
-    s21_decimal dec1 = {{0, MAX_INT, 1474967220, 0}};
-    put_exp(&dec1, 25);
-    put_bit(&dec1, 127, 0);
+    // s21_decimal dec1 = {{0, MAX_INT, 1474967220, 0}};
+    // put_exp(&dec1, 10);
+    // put_bit(&dec1, 127, 0);
 
-    s21_decimal dec2 = {{785645463, 0, MAX_INT, 0}};
-    put_exp(&dec2, 20);
-    put_bit(&dec2, 127, 0);
+    // s21_decimal dec2 = {{785645463, 0, MAX_INT, 0}};
+    // put_exp(&dec2, 10);
+    // put_bit(&dec2, 127, 0);
+
+    // s21_decimal dec1 = {{1, 0, 156474546, 0}};
+    // put_exp(&dec1, 0);
+    // put_bit(&dec1, 127, 0);
+
+    s21_decimal dec1 = DEC_NUL;
+    char strinp1[32] = "-7.886366";
+    str_to_dec(strinp1, &dec1);
+
+    s21_decimal dec2 = DEC_NUL;
+    char strinp2[32] = "-78231657421398037481500.000000";
+    str_to_dec(strinp2, &dec2);
     
     // s21_decimal dec3 = {{0, 0, 0, 0}};
     s21_decimal dec4 = {{0, 0, 0, 0}};
@@ -36,7 +48,7 @@ int main() {
     // print_bits(dec3);
 
     char* f4 = dec_to_str(dec4);
-    printf("res1 || %s\n", f4);
+    printf("%s    || RES\n", f4);
     free(f4);
 
     return 0;

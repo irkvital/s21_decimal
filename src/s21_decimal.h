@@ -86,6 +86,7 @@ typedef struct
     void centering(s21_decimal* value_1, s21_decimal* value_2);
     void centering_simple(s21_decimal* value_1, s21_decimal* value_2, int exp_1, int exp_2);
     s21_decimal div_ten(s21_decimal* dec);
-
+    // void NormaliseNegExp(s21_decimal* dec, int* exp);
+    void str_to_dec(char str[], s21_decimal* dec);
 
 #endif //  SRC_S21_DECIMAL_H

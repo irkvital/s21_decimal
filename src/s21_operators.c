@@ -32,11 +32,13 @@ int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 }
 
 int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-    s21_decimal dec10 = {{1410065408, 2, 0, 0}};
+    int out = 0;
+    *result = DEC_NUL;
+    int sign_res = get_bit(value_1, 127) ^ get_bit(value_2, 127);  // Исключающее или
+    s21_decimal dec10 = {{1410065408, 2, 0, 0}};   // Число 10^10
     int exp1 = get_exp(value_1);
     int exp2 = get_exp(value_2);
     s21_decimal tmp = DEC_NUL;
-    *result = DEC_NUL;
     // Формирование 3х слагаемых каждого множителя
     s21_decimal deca[3];
     s21_decimal decb[3];
@@ -49,19 +51,41 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
         }
         put_exp(&deca[i], exp1);
         put_exp(&decb[i], exp2);
+        // if (exp1 < 0) NormaliseNegExp(&deca[i], exp1);
+        // if (exp2 < 0) NormaliseNegExp(&decb[i], exp2);
         exp1 -= 10;
         exp2 -= 10;
     }
     // Попарное перемножение слагаемых и суммирование
     for (int i = 2; i >= 0; i--) {
         for (int j = 2; j >= 0; j--) {
-            int expa = get_exp(deca[i]);
-            int expb = get_exp(decb[j]);
-            s21_mul_simple(deca[i], decb[j], &tmp);
-            put_exp(&tmp, expa + expb);
-            s21_add(*result, tmp, result);
+            exp1 = get_exp(deca[i]);
+            exp2 = get_exp(decb[j]);
+            out += s21_mul_simple(deca[i], decb[j], &tmp);
+            put_exp(&tmp, exp1 + exp2);
+            out += s21_add(*result, tmp, result);
+                // printf("OUT %d\n", out);
+                //     char* f1 = dec_to_str(deca[i]);
+                //     printf("DECA %d %s   ", i, f1); printf("EXP1 %d\n", exp1);
+                //     free(f1);
+                //     char* f2 = dec_to_str(decb[j]);
+                //     printf("DECB %d %s   ", j, f2); printf("EXP2 %d\n", exp2);
+                //     free(f2);
+                //     char* f3 = dec_to_str(tmp);
+                //     printf("TMP %s   ", f3); printf("EXPT %d\n", get_exp(tmp));
+                //     free(f3);
+                //     char* f4 = dec_to_str(*result);
+                //     printf("RES %s   ", f4); printf("EXPR %d\n\n", get_exp(*result));
+                //     free(f4);
         }
     }
+    put_bit(result, 127, sign_res);
+    if (out || get_exp(*result) < 0) {
+        out = (sign_res == MINUS) ? 2 : 1;
+    } else if (get_exp(*result) > 28) {
+        out = 2;
+    }
+    return out;
 }
 
 // int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {

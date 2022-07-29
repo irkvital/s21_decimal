@@ -38,7 +38,6 @@ void print_bits(s21_decimal dec) {
 }
 
 void put_exp(s21_decimal* dec, int exp) {
-    // exp = (exp > 28) ? 28 : exp; // хз, может и не нужно
     for (int bit_num = 0; bit_num < 8; bit_num++) {
         put_bit(dec, bit_num + 112, exp & 0b1);
         exp >>= 1;
@@ -49,6 +48,7 @@ int get_exp(s21_decimal dec) {
     int out = dec.bits[3];
     out <<= 1;
     out >>= 17;
+    out = (out > 100) ? out - 256 : out;
     return out;
 }
 
@@ -260,7 +260,7 @@ int s21_div_full_bits(s21_decimal value_1, s21_decimal value_2, s21_decimal *res
     }
     put_exp(result, exp);
     if (result->bits[0] == 0 && result->bits[1] == 0 && result->bits[2] == 0) {
-        // out = 2;     // Как по мне нужно код ошибки 2, если число близко к нулю, т.е. очень мало
+        out = 2;     // Как по мне нужно код ошибки 2, если число близко к нулю, т.е. очень мало
     } else if (err) {
         out = 1;
     }
@@ -307,4 +307,28 @@ s21_decimal div_ten(s21_decimal* dec) {
     exp_1--;
     put_exp(dec, exp_1);
     return out;
+}
+
+// void NormaliseNegExp(s21_decimal* dec, int exp) {
+//     while (exp < 0) {
+//         s21_mul_simple(*dec, DEC_TEN, dec);
+//         exp++;
+//     }
+//     put_exp(dec, exp);
+// }
+
+void str_to_dec(char str[], s21_decimal* dec) {
+    *dec = DEC_NUL;
+    int len = strlen(str);
+    for (int i = 0; i < len; i++) {
+        if (str[i] >= '0' && str[i] <= '9') {
+            int symbol = str[i] - '0';
+            s21_mul_simple(*dec, DEC_TEN, dec);
+            dec->bits[0] += symbol;
+        } else if (str[i] == '.') {
+            put_exp(dec, len - 1 - i);
+        } else if (str[i] == '-') {
+            put_bit(dec, 127, MINUS);
+        }
+    }
 }
