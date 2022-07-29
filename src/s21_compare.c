@@ -77,3 +77,9 @@ int s21_is_less_or_equal(s21_decimal v1, s21_decimal v2){
     out = out > 0 ? 1 : 0;
 return out;
 }
+
+
+int s21_is_not_equal(s21_decimal v1, s21_decimal v2){
+return !s21_is_equal(v1, v2);
+}
+

@@ -31,20 +31,12 @@ int s21_from_decimal_to_int(s21_decimal src, int *dst) {
 int s21_from_int_to_decimal(int src, s21_decimal* dst){
     unsigned int out = hint - src + 1;
     dst->bits[0] = out;
+return out;
+}
+
+
+int s21_from_float_to_decimal(float src, s21_decimal *dst) {
     
 
-
-//    int mod, full = src, flag = 0;
-//    if (src < hint && src > lint) {
-//        if (src < 0)
-//            put_bit(dst, 127, 1);
-//        src = abs(src);
-//        for(int i = 0; full; i++) {
-//            full = src / 2;
-//            mod = src % 2;
-//            src = full;
-//            put_bit(dst, i, mod);
-//        }
-//    } else { flag = 1; } 
-return out;
+return 0;
 }

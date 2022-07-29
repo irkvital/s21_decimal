@@ -43,7 +43,7 @@ typedef struct
     int s21_is_greater(s21_decimal value_1, s21_decimal value_2);
     int s21_is_greater_or_equal(s21_decimal value_1, s21_decimal value_2);
     int s21_is_equal(s21_decimal value_1, s21_decimal value_2);
-    // int s21_is_not_equal(s21_decimal value_1, s21_decimal value_2);
+    int s21_is_not_equal(s21_decimal value_1, s21_decimal value_2);
 
 // Преобразователи. Возвращают: 0 - OK, 1 - ошибка конвертации
 
@@ -84,6 +84,7 @@ typedef struct
     void centering_simple(s21_decimal* value_1, s21_decimal* value_2, int exp_1, int exp_2);
     // Всратые фун-ии для сравнения
     int search_len(s21_decimal val);
+    int scale(float number);
 
 
 
