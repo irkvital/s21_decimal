@@ -4,6 +4,8 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     int out = 0;
     for (int i = 0; i < 3; i++) result->bits[i] = 0;
     centering(&value_1, &value_2);
+    int exp1 = get_exp(value_1);
+    int exp2 = get_exp(value_2);
     int sign_1 = get_bit(value_1, 127);
     int sign_2 = get_bit(value_2, 127);
     int sign   = PLUS;
@@ -22,6 +24,13 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     put_bit(result, 127, sign);
     put_exp(result, get_exp(value_1));
     if (out != 0 && sign == MINUS) out = 2;
+    if (out != 0 && exp1 && exp2) {
+        s21_div_simple(value_1, DEC_TEN, &value_1);
+        s21_div_simple(value_2, DEC_TEN, &value_2);
+        put_exp(&value_1, exp1 - 1);
+        put_exp(&value_2, exp2 - 1);
+        out = s21_add(value_1, value_2, result);
+    }
     return out;
 }
 
@@ -51,8 +60,6 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
         }
         put_exp(&deca[i], exp1);
         put_exp(&decb[i], exp2);
-        // if (exp1 < 0) NormaliseNegExp(&deca[i], exp1);
-        // if (exp2 < 0) NormaliseNegExp(&decb[i], exp2);
         exp1 -= 10;
         exp2 -= 10;
     }
@@ -64,19 +71,6 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
             out += s21_mul_simple(deca[i], decb[j], &tmp);
             put_exp(&tmp, exp1 + exp2);
             out += s21_add(*result, tmp, result);
-                // printf("OUT %d\n", out);
-                //     char* f1 = dec_to_str(deca[i]);
-                //     printf("DECA %d %s   ", i, f1); printf("EXP1 %d\n", exp1);
-                //     free(f1);
-                //     char* f2 = dec_to_str(decb[j]);
-                //     printf("DECB %d %s   ", j, f2); printf("EXP2 %d\n", exp2);
-                //     free(f2);
-                //     char* f3 = dec_to_str(tmp);
-                //     printf("TMP %s   ", f3); printf("EXPT %d\n", get_exp(tmp));
-                //     free(f3);
-                //     char* f4 = dec_to_str(*result);
-                //     printf("RES %s   ", f4); printf("EXPR %d\n\n", get_exp(*result));
-                //     free(f4);
         }
     }
     put_bit(result, 127, sign_res);
@@ -87,34 +81,6 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     }
     return out;
 }
-
-// int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
-//     int out = 0;
-//     for (int i = 0; i < 4; i++) result->bits[i] = 0;
-//     int sign_res = get_bit(value_1, 127) ^ get_bit(value_2, 127);  // Исключающее или
-//     put_bit(result, 127, sign_res);
-//     put_bit(&value_1, 127, sign_res);
-//     put_bit(&value_2, 127, sign_res);
-//     s21_decimal dec_tmp = {{0, 0, 0, 0}};
-//     // if (s21_mul_simple(value_1, DEC_TEN, &dec_tmp)) {
-//     //     int exp = get_exp(value_1);
-//     //     exp--;
-//     //     s21_div_simple(value_1, DEC_TEN, &value_1);
-//     //     put_exp(&value_1, exp);
-//     // }
-//     int exp_1 = get_exp(value_1);
-//     int exp_2 = get_exp(value_2);
-//     int exp_res = exp_1 + exp_2;
-
-//     do {
-//         dec_tmp = s21_div_simple(value_2, DEC_TEN, &value_2);   // Получение цифры
-//         s21_mul_simple(value_1, dec_tmp, &dec_tmp);  // Умножение первого числа на цифру разряда второго
-//         put_exp(&dec_tmp, exp_res);
-//         s21_add(*result, dec_tmp, result);
-//         exp_res--;
-//     } while ((value_2.bits[0] != 0 || value_2.bits[1] != 0 || value_2.bits[2] != 0) && exp_res >= 0);
-//     return out;
-// }
 
 int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     int out = 0;

@@ -309,13 +309,13 @@ s21_decimal div_ten(s21_decimal* dec) {
     return out;
 }
 
-// void NormaliseNegExp(s21_decimal* dec, int exp) {
-//     while (exp < 0) {
-//         s21_mul_simple(*dec, DEC_TEN, dec);
-//         exp++;
-//     }
-//     put_exp(dec, exp);
-// }
+void NormaliseNegExp(s21_decimal* dec, int exp) {
+    while (exp < 0) {
+        s21_mul_simple(*dec, DEC_TEN, dec);
+        exp++;
+    }
+    put_exp(dec, exp);
+}
 
 void str_to_dec(char str[], s21_decimal* dec) {
     *dec = DEC_NUL;
