@@ -226,7 +226,6 @@ s21_decimal s21_div_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal
 int s21_div_full_bits(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     int out = 0;
     int err = 0;
-    // for (int i = 0; i < 3; i++) result->bits[i] = 0;
     int num_bits_2 = signific_bits(*result);
     int exp = get_exp(value_1) - get_exp(value_2) - 1;
     // Выход если нет остатка от деления или заполнены все биты в result
@@ -238,7 +237,11 @@ int s21_div_full_bits(s21_decimal value_1, s21_decimal value_2, s21_decimal *res
             exp++;
             value_1 = s21_div_simple(value_1, value_2, &tmp);   // В value_1 записывается остаток от деления
             s21_add_simple(*result, tmp, result);
-            s21_mul_simple(value_1, DEC_TEN, &value_1);
+            while (s21_mul_simple(value_1, DEC_TEN, &value_1)) {
+                // Случай большого остатка, не умножающегося на 10
+                s21_div_simple(value_1, DEC_TWO, &value_1);
+                s21_div_simple(value_2, DEC_TWO, &value_2);
+            }
             num_bits_2 = signific_bits(*result);
         }
         // Округление. Прибавляем 1 в конец, если округление в большую сторону

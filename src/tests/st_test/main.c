@@ -115,7 +115,7 @@ void get_testcase(char **number, char **result) {
 void get_testcase2(char **result2) { *result2 = results2[cur_testcase - 1]; }
 
 s21_decimal str2decimal(const char *number) {
-  s21_decimal res = {0, 0, 0, 0};
+  s21_decimal res = {{0, 0, 0, 0}};
 
   int cur_sim_in_num = 0;
   for (int i = BITS_IN_INT - 1; i >= 0; i--) {
@@ -221,10 +221,10 @@ int main() {
     // run_int_to_dec_test(10);
     // clear_input();
 
-    // clear_input();
-    // printf(COLOR_GREEN "EQ TEST:\n" COLOR_END);
-    // run_eq_test(10);
-    // clear_input();
+    clear_input();
+    printf(COLOR_GREEN "EQ TEST:\n" COLOR_END);
+    run_eq_test(10);
+    clear_input();
 
     // clear_input();
     // printf(COLOR_GREEN "LESS TEST:\n" COLOR_END);
