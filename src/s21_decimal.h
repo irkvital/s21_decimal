@@ -70,7 +70,7 @@ typedef struct {
     int s21_is_greater_simple(s21_decimal value_1, s21_decimal value_2);
     int s21_is_greater_or_equal_simple(s21_decimal value_1, s21_decimal value_2);
     int get_bit(s21_decimal dec, int bit_num);
-    int put_bit(s21_decimal* dec, int bit_num, int bit);
+    void put_bit(s21_decimal* dec, int bit_num, int bit);
     void print_bits(s21_decimal dec);
     void put_exp(s21_decimal* dec, int exp);
     int get_exp(s21_decimal dec);
@@ -84,7 +84,6 @@ typedef struct {
     int s21_div_full_bits(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
     void centering(s21_decimal* value_1, s21_decimal* value_2);
     void centering_simple(s21_decimal* value_1, s21_decimal* value_2, int exp_1, int exp_2);
-    s21_decimal div_ten(s21_decimal* dec);
     void str_to_dec(char str[], s21_decimal* dec);
 
 #endif  // SRC_S21_DECIMAL_H_
