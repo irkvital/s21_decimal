@@ -29,7 +29,7 @@ void print_bits(s21_decimal dec) {
             if ((bit >= 112 && bit <= 119) || bit == 127) {
                 printf("\x1B[31m""%d", out);
             } else {
-                printf( "\x1B[0m""%d", out);
+                printf("\x1B[0m""%d", out);
             }
         }
         putchar('\n');
@@ -97,7 +97,7 @@ char* dec_to_str(s21_decimal dec) {
 // Вспомогательные функции для математических операций
 
 int shift_left(s21_decimal* dec) {
-    int flag = (dec->bits[2] & LEFT_BIT) ? 1 : 0; // 1 - будет переполнение сдвиг невозможен
+    int flag = (dec->bits[2] & LEFT_BIT) ? 1 : 0;  // 1 - будет переполнение сдвиг невозможен
     if (!flag) {
         for (int byte = 0; byte < 3; byte++) {
             int flagn = (dec->bits[byte] & LEFT_BIT) ? 1 : 0;
@@ -110,7 +110,7 @@ int shift_left(s21_decimal* dec) {
 }
 
 int shift_right(s21_decimal* dec) {
-    int flag = (dec->bits[0] & 1) ? 1 : 0; // 1 - будет переполнение сдвиг невозможен
+    int flag = (dec->bits[0] & 1) ? 1 : 0;  // 1 - будет переполнение сдвиг невозможен
     if (!flag) {
         for (int byte = 2; byte >= 0; byte--) {
             int flagn = (dec->bits[byte] & 1) ? 1 : 0;
@@ -171,7 +171,7 @@ int s21_add_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result
         flag = bit3 / 2;
         put_bit(result, bit_num, bit3 % 2);
     }
-    return flag; // 0 - OK; 1 - inf
+    return flag;  // 0 - OK; 1 - inf
 }
 
 int s21_sub_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
@@ -197,10 +197,10 @@ int s21_mul_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result
         if (get_bit(value_2, i) == 1) {
             flag = s21_add_simple(*result, value_1, result);
         }
-        if (shift_left(&value_1) && i != count - 1) flag = 1;            // && i != count) ////////////////////////////////////////////
+        if (shift_left(&value_1) && i != count - 1) flag = 1;
     }
     if (flag) *result = tmp;
-    return flag; // 1 - ошибка переполнения
+    return flag;  // 1 - ошибка переполнения
 }
 
 s21_decimal s21_div_simple(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
@@ -310,14 +310,6 @@ s21_decimal div_ten(s21_decimal* dec) {
     exp_1--;
     put_exp(dec, exp_1);
     return out;
-}
-
-void NormaliseNegExp(s21_decimal* dec, int exp) {
-    while (exp < 0) {
-        s21_mul_simple(*dec, DEC_TEN, dec);
-        exp++;
-    }
-    put_exp(dec, exp);
 }
 
 void str_to_dec(char str[], s21_decimal* dec) {

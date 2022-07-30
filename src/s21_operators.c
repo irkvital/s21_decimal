@@ -88,7 +88,7 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     if (value_2.bits[0] == 0 && value_2.bits[1] == 0 && value_2.bits[2] == 0) {
         out = 3;  //    n / 0 = error
     } else if (value_1.bits[0] == 0 && value_1.bits[1] == 0 && value_1.bits[2] == 0) {
-        for (int i = 0; i < 4; i++) result->bits[i] = 0; //   0 / n = 0
+        for (int i = 0; i < 4; i++) result->bits[i] = 0;  //   0 / n = 0
     } else {
         out = s21_div_full_bits(value_1, value_2, result);
     }

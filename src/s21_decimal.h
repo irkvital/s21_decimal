@@ -1,5 +1,5 @@
-#ifndef SRC_S21_DECIMAL_H
-#define SRC_S21_DECIMAL_H
+#ifndef SRC_S21_DECIMAL_H_
+#define SRC_S21_DECIMAL_H_
 
 #include <stdio.h>
 #include <math.h>
@@ -20,8 +20,7 @@
 // bits[1] - средние биты 32-63
 // bits[2] - старшие биты 64-95
 // bits[3] - 96-111 нули, 112-119 показатели степени, 120-126 нули, 127 знак ('0' - '+')
-typedef struct 
-{
+typedef struct {
     int bits[4];
 } s21_decimal;
 
@@ -66,7 +65,7 @@ typedef struct
 
     int shift_left(s21_decimal* dec);
     int shift_right(s21_decimal* dec);
-    int signific_bits(s21_decimal dec); // Количество значащих битов
+    int signific_bits(s21_decimal dec);  // Количество значащих битов
     int s21_is_equal_simple(s21_decimal value_1, s21_decimal value_2);
     int s21_is_greater_simple(s21_decimal value_1, s21_decimal value_2);
     int s21_is_greater_or_equal_simple(s21_decimal value_1, s21_decimal value_2);
@@ -86,7 +85,6 @@ typedef struct
     void centering(s21_decimal* value_1, s21_decimal* value_2);
     void centering_simple(s21_decimal* value_1, s21_decimal* value_2, int exp_1, int exp_2);
     s21_decimal div_ten(s21_decimal* dec);
-    void NormaliseNegExp(s21_decimal* dec, int exp);
     void str_to_dec(char str[], s21_decimal* dec);
 
-#endif //  SRC_S21_DECIMAL_H
+#endif  // SRC_S21_DECIMAL_H_

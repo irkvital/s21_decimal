@@ -11,12 +11,12 @@ int main() {
     s21_decimal dec2 = DEC_NUL;
     char strinp2[32] = "71780112248297297370296977550";
     str_to_dec(strinp2, &dec2);
-    
+
     // s21_decimal dec3 = {{0, 0, 0, 0}};
     s21_decimal dec4 = {{0, 0, 0, 0}};
 
     // printf("MID %d\n", s21_mul(dec1, dec2, &dec4));
-    printf("MID %d\n", s21_div(dec1, dec2, &dec4));
+    printf("MID %d\n", s21_mul(dec1, dec2, &dec4));
 
     print_bits(dec1);
     print_bits(dec2);
