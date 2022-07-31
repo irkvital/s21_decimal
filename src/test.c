@@ -7,61 +7,91 @@
 int main() {
     
     s21_decimal dec1 = {{0, 0, 0, 0}};
-    put_bit(&dec1, 0, 1);
-    put_bit(&dec1, 1, 1);
-    put_bit(&dec1, 2, 0);
-    put_bit(&dec1, 3, 1);
-    put_exp(&dec1, 1);
-//
-//    float f = 5.5;
-//    unsigned int fbits = *((unsigned int*)&f);
-//    int scale_f = scale(f);
-//    printf("scale = %d\n", scale_f);
-//    printf("start_tmp\n");
-//        int out;
-//        for (unsigned int mask = 0x80000000, i = 0; mask; mask >>= 1, i++) {
-//            out = !!(fbits&mask);
-//        if (i > 0 && i < 9)
-//            printf("\x1B[35m""%d", out);
-//        else if(i >= 9 && i < 9 + (unsigned int)scale_f)
-//            printf("\x1B[33m""%d", out);
-//        else
-//            printf( "\x1B[0m""%d", out);
+
+
+
+    float f = 10.5;
+    unsigned int fbits = *((unsigned int*)&f);
+    int scale_f = scale(f);
+    printf("start_tmp\n");
+        int out;
+        for (unsigned int mask = 0x80000000, i = 0; mask; mask >>= 1, i++) {
+            out = !!(fbits&mask);
+        if (i > 0 && i < 9)
+            printf("\x1B[35m""%d", out);
+        else if(i >= 9 && i < 9 + (unsigned int)scale_f)
+            printf("\x1B[33m""%d", out);
+        else
+            printf( "\x1B[0m""%d", out);
+        }
+    printf("\nendtmp\n");
+
+    fbits <<= 8; // delete exp
+
+
+    for (unsigned int mask = 0x80000000, i = 23; mask; mask >>= 1, i--) {
+        if (i == 23) {
+            put_bit(&dec1, i, 1);
+        } else if (!!(fbits&mask)) { 
+            put_bit(&dec1, i, 1);
+        } else {
+            put_bit(&dec1, i, 0); }
+    }
+
+
+    if (scale_f > 23) {
+        printf("shift\n");
+        dec1.bits[0] <<= scale_f - 23;
+    } else { 
+        for (unsigned int mask = 0b1, i = 23; !(mask & dec1.bits[0]) && i > scale_f ; dec1.bits[0] >>= 1) 
+            i--;
+            }
+
+    int decimal_exp = 0;
+
+//    while (scale_f >= 22) {
+//        s21_mul(dec1, DEC_TEN, &dec1);
+//        scale_f--;
+//        decimal_exp++;
 //        }
-//    printf("\nendtmp\n");
-//
-//    fbits <<= 8; // delete exp
-//
-//
-//    for (unsigned int mask = 0x80000000, i = 23; mask; mask >>= 1, i--) {
-//        if (i == 23) {
-//            put_bit(&dec1, i, 1);
-//        } else if (!!(fbits&mask)) { 
-//            put_bit(&dec1, i, 1);
-//        } else {
-//            put_bit(&dec1, i, 0); }
-//    }
-//
-//
-//    for (unsigned int mask = 0b1; !(mask&dec1.bits[0]); dec1.bits[0] >>= 1);
-//
-// 
-//    printf("start_tmp\n");
-//        for (unsigned int mask = 0x80000000, i = 0; mask; mask >>= 1, i++) {
-//            out = !!(fbits&mask);
-//        if (i > 0 && i < 9)
-//            printf("\x1B[35m""%d", out);
-//        else if(i >= 9 && i < 9 + (unsigned int)scale_f)
-//            printf("\x1B[33m""%d", out);
-//        else
-//            printf( "\x1B[0m""%d", out);
-//        }
-//    printf("\nendtmp\n");
-//
-//    put_exp(&dec1, 20);
-//
-//    printf("res = %f\n", res);
-//    unsigned int res = 0;
+
+        
+
+    int bit_count = 31;
+    while(!get_bit(dec1, bit_count))
+        bit_count--;
+
+    printf("scale = %d\n", scale_f);
+    printf("first_one %d\n", bit_count);
+     
+
+    printf("iter count = %d\n", bit_count - scale_f);
+    for (int i = 0; i < bit_count - scale_f; i++) {
+//        printf("\nbefore mul\n");
+//        print_bits(dec1);
+        s21_mul(dec1, DEC_TEN, &dec1);
+//        printf("\nbefore shift\n");
+//        print_bits(dec1);
+        dec1.bits[0] >>= 1;
+//        printf("\n after shift\n");
+        decimal_exp++;
+        }
+
+
+    printf("start_tmp\n");
+        for (unsigned int mask = 0x80000000, i = 0; mask; mask >>= 1, i++) {
+            out = !!(fbits&mask);
+        if (i > 0 && i < 9)
+            printf("\x1B[35m""%d", out);
+        else if(i >= 9 && i < 9 + (unsigned int)scale_f)
+            printf("\x1B[33m""%d", out);
+        else
+            printf( "\x1B[0m""%d", out);
+        }
+    printf("\nendtmp\n");
+
+    put_exp(&dec1, decimal_exp);
+
 
 
 //    for (unsigned int mask = 0x80000000, i = 0; mask; mask >>= 1, i++) {
