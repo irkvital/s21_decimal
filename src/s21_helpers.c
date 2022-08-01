@@ -309,3 +309,16 @@ void str_to_dec(char str[], s21_decimal* dec) {
         }
     }
 }
+
+
+int scale(float num) {
+    int res = 127;
+    unsigned int bits = *((unsigned int*)&num);
+    bits <<= 1; bits >>= 24;
+    printf("SCALE = %u\n", bits);
+    
+
+    res = bits - res;
+
+return res;
+    }

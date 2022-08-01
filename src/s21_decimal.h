@@ -86,4 +86,7 @@ typedef struct {
     void centering_simple(s21_decimal* value_1, s21_decimal* value_2, int exp_1, int exp_2);
     void str_to_dec(char str[], s21_decimal* dec);
 
+
+    int scale(float);
+
 #endif  // SRC_S21_DECIMAL_H_
