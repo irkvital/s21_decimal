@@ -23,15 +23,23 @@ int s21_from_decimal_to_int(s21_decimal src, int *dst) {
     if (tmp_res > hint && tmp_res < lint) {
         res = 1;
     } else {
-        *dst = tmp_res; }
+        *dst = tmp_res;
+    }
     return res;
 }
 
 
 int s21_from_int_to_decimal(int src, s21_decimal* dst){
-    unsigned int out = hint - src + 1;
+    unsigned int out;
+    if (src < 0) {
+        out = - src;
+        put_bit(dst, 127, MINUS);
+    } else {
+        out = src;
+        put_bit(dst, 127, PLUS);
+    }
     dst->bits[0] = out;
-return out;
+return 0;  //  Нет ошибки конвертации инта в децимал. Добавить
 }
 
 

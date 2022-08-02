@@ -14,10 +14,10 @@ void run_dec_to_int_test(int count) {
     while (count-- > 0) {
         get_testcase(&number, &result);
 
-        s21_decimal decimal_num = str2decimal(number);
+        s21_decimal decimal_num = DEC_NUL;
+        str_to_dec(result, &decimal_num);
 
         int res = strtol(result, NULL, 10);
-
         int s21_res;
         s21_from_decimal_to_int(decimal_num, &s21_res);
 
