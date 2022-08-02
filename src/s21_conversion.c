@@ -35,8 +35,37 @@ return out;
 }
 
 
-//int s21_from_float_to_decimal(float src, s21_decimal *dst) {
-//    
-//
-//return 0;
-//}
+int s21_from_float_to_decimal(float src, s21_decimal *dst) {
+    int scale_f = scale(src);
+    int decimal_exp = 0;
+    int bit_count = 31;
+    unsigned int fbits = *((unsigned int*)&src);
+    if (!!(0x80000000 & fbits))
+        put_bit(dst, 127, 1);
+    fbits <<= 8;
+
+    for (unsigned int mask = 0x80000000, i = 23; mask; mask >>= 1, i--) {
+        if (i == 23) {
+            put_bit(dst, i, 1);
+        } else if (!!(fbits&mask)) { 
+            put_bit(dst, i, 1);
+        } else {
+            put_bit(dst, i, 0); }
+    }
+    
+    while(!get_bit(*dst, bit_count))
+        bit_count--;
+
+    for (int i = 0; i < bit_count - scale_f; i++) {
+        s21_mul(*dst, DEC_TEN, dst);
+        if(!get_bit(*dst, 0))
+            shift_right(dst);
+        decimal_exp++;
+        }
+    
+    put_exp(dst, decimal_exp);
+
+
+return 0;
+}
+
