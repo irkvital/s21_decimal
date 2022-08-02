@@ -8,3 +8,29 @@ int s21_negate(s21_decimal value, s21_decimal *result) {
     int out = (result) ? 0 : 1;
     return out;
 }
+
+int s21_floor(s21_decimal value, s21_decimal *result) {
+    int exp = get_exp(value);
+    // int flag = 0; 
+    s21_decimal integer = DEC_TEN;
+    s21_decimal fract;
+    s21_decimal one = {{1, 0, 0, 0}};
+    put_bit(&one, 127, MINUS);
+
+    if (get_bit(value, 127)) {
+        // flag = 1;  
+        put_bit(result, 127, MINUS);
+    }         
+    fract = s21_div_simple(value, integer, result);
+
+    if (exp > 0) {
+        while(exp-- > 0) {
+            s21_div_simple(value, integer, result);
+            value = *result;
+        }
+    } else { *result = value; }
+
+    if (get_bit(value, 127) && !s21_is_equal(fract, DEC_NUL))
+        s21_add(*result, one, result);
+return 0;
+}
