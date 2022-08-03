@@ -9,8 +9,10 @@ int main() {
     s21_decimal dec2 = DEC_NUL;
     s21_decimal dec_res = DEC_NUL;
 
-    rand_dec(&dec1);
-    rand_dec(&dec2);
+    // rand_dec(&dec1);
+    // rand_dec(&dec2);
+    str_to_dec("-236815656264883769144748.57204", &dec1);
+    str_to_dec("00000.000005284694888333416396", &dec2);
 
     s21_div(dec1, dec2, &dec_res);
     int exp = get_exp(dec_res);
@@ -27,7 +29,7 @@ int main() {
     if (fp = fopen("1.txt", "r")) {
         fgets(res_py, 32, fp);
         fclose(fp);
-    } 
+    }
 
 // PRINT
     char* f1 = dec_to_str(dec1);
@@ -47,21 +49,10 @@ int main() {
     free(strdec1);
     free(strdec2);
 
-    // char strinp1[32] = "0.1";
-    // char strinp2[32] = "0.3";
-    // int num = 28;
-    // char str[120];
-    // sprintf(str, "python3 1.py %s %s %d", strinp1, strinp2, num);
-    // system(str);
-
-    // print_bits(dec1);
-
-    // char* f1 = dec_to_str(dec1);
-    // printf("dec1 || %s\n", f1);
-    // free(f1);
-
     return 0;
 }
+
+
 
 int rand_dec(s21_decimal* dec) {
     int exp = rand() % 29;
