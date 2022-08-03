@@ -17,29 +17,37 @@ int s21_from_decimal_to_float(s21_decimal src, float *dst) {
 
 int s21_from_decimal_to_int(s21_decimal src, int *dst) {
     int res = 0;
-    char* tmp = dec_to_str(src);     
-    long int tmp_res = (int)strtod(tmp, NULL);
-    free(tmp);
-    if (tmp_res > hint && tmp_res < lint) {
-        res = 1;
+    if (*dst < 1e-28 || *dst > 1e+95 || s21_isinf(*dst) || s21_isnan(*dst)) {
+        res = 1; 
     } else {
-        *dst = tmp_res;
-    }
+        char* tmp = dec_to_str(src);     
+        long int tmp_res = (int)strtod(tmp, NULL);
+        free(tmp);
+        if (tmp_res > hint && tmp_res < lint)
+            res = 1;
+        else
+            *dst = tmp_res;
+    } 
     return res;
 }
 
 
 int s21_from_int_to_decimal(int src, s21_decimal* dst){
+    int res = 0;
     unsigned int out;
-    if (src < 0) {
-        out = - src;
-        put_bit(dst, 127, MINUS);
+    if (*dst < 1e-28 || *dst > 1e+95 || s21_isinf(*dst) || s21_isnan(*dst)) {
+        res = 1;
     } else {
-        out = src;
-        put_bit(dst, 127, PLUS);
+        if (src < 0) {
+            out = - src;
+            put_bit(dst, 127, MINUS);
+        } else {
+            out = src;
+            put_bit(dst, 127, PLUS);
+        }
+        dst->bits[0] = out;
     }
-    dst->bits[0] = out;
-return 0;  //  Нет ошибки конвертации инта в децимал. Добавить
+return res;  //  Нет ошибки конвертации инта в децимал. Добавить
 }
 
 
