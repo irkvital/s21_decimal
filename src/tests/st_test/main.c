@@ -197,24 +197,24 @@ int main() {
     // printf(COLOR_GREEN "FLOOR:\n" COLOR_END);
     // run_floor_test(10);
     
-    // clear_input();
-    // printf(COLOR_GREEN "NEGATE:\n" COLOR_END);
-    // run_negate_test(10);
+    clear_input();
+    printf(COLOR_GREEN "NEGATE:\n" COLOR_END);
+    run_negate_test(10);
 
-    // clear_input();
-    // printf(COLOR_GREEN "DEC_TO_FLOAT:\n" COLOR_END);
-    // run_dec_to_float_test(10);
-    // clear_input();
+            // clear_input();
+            // printf(COLOR_GREEN "DEC_TO_FLOAT:\n" COLOR_END);
+            // run_dec_to_float_test(10);
+            // clear_input();
 
             // clear_input();
             // printf(COLOR_GREEN "DEC_TO_INT:\n" COLOR_END);
             // run_dec_to_int_test(10);
             // clear_input();
 
-    clear_input();
-    printf(COLOR_GREEN "FLOAT_TO_DEC:\n" COLOR_END);
-    run_float_to_dec_test(10);
-    clear_input();
+    // clear_input();
+    // printf(COLOR_GREEN "FLOAT_TO_DEC:\n" COLOR_END);
+    // run_float_to_dec_test(10);
+    // clear_input();
 
             // clear_input();
             // printf(COLOR_GREEN "INT_TO_DEC:\n" COLOR_END);
