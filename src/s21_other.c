@@ -64,3 +64,20 @@ int s21_round(s21_decimal value, s21_decimal *result) {
 
     return out; 
 }
+
+
+int s21_truncate(s21_decimal value, s21_decimal *result) {
+    int out = 0, exp = get_exp(value), sign = get_bit(value, 127); 
+    if (exp > 0 && exp <= 28) {
+        while (exp-- > 0) {
+        s21_div_simple(value, DEC_TEN, result);
+        value = *result;
+        }
+    } else if (exp == 0) {
+        *result = value;
+    } else { out = 1; }
+    if(sign)
+        put_bit(result, 127, 1);
+    return out;
+}
+    
