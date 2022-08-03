@@ -71,7 +71,7 @@ int s21_from_float_to_decimal(float src, s21_decimal *dst) {
                 i--;
         }
         
-        while(!get_bit(*dst, bit_count))
+        while(!get_bit(*dst, bit_count) && bit_count >= 0)
             bit_count--;
 
         for (int i = 0; i < bit_count - scale_f; i++) {
