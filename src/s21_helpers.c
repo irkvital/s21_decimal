@@ -45,7 +45,7 @@ int get_exp(s21_decimal dec) {
 
 char* dec_to_str(s21_decimal dec) {
     char* out = (char*) calloc(32, sizeof(char));
-    memset(out, '0', 29), out[29] = '\0', out[30] = '\0', out[31] = '\0';
+    memset(out, '0', 29);
     char exptwo[30];
     memset(exptwo, '0', 28), exptwo[28] = '1', exptwo[29] = '\0';
 
@@ -71,12 +71,16 @@ char* dec_to_str(s21_decimal dec) {
         }
     }
     // Вставка точки
-    int point = (dec.bits[3] << 1) >> 17;
+    int point = get_exp(dec);
     if (point > 28) point = 0;
     if (point) {
         memmove(out + 30 - point, out + 29 - point, point);
         out[29 - point] = '.';
     }
+    // Удаление первых нулей
+    // int count = 0;
+    // while (count < 29 - point - 1 && out[count] == '0') count++;
+    // if (count != 0) memmove(out, out + count, 32 - count);
     // Вставка знака
     if (get_bit(dec, 127)) {
         memmove(out + 1, out, 30);
@@ -219,10 +223,10 @@ int s21_div_full_bits(s21_decimal value_1, s21_decimal value_2, s21_decimal *res
     int err = 0;
     int num_bits_2 = signific_bits(*result);
     int exp = get_exp(value_1) - get_exp(value_2) - 1;
+    s21_decimal tmp = {{0, 0, 0, 0}};
     // Выход если нет остатка от деления или заполнены все биты в result
     while ((num_bits_2 < 96) && exp < 28 && !err && (value_1.bits[0] != 0 || value_1.bits[1] != 0
                                                                                 || value_1.bits[2] != 0)) {
-        s21_decimal tmp = {{0, 0, 0, 0}};
         err = s21_mul_simple(*result, DEC_TEN, result);
         if (!err) {
             exp++;
@@ -235,16 +239,13 @@ int s21_div_full_bits(s21_decimal value_1, s21_decimal value_2, s21_decimal *res
             }
             num_bits_2 = signific_bits(*result);
         }
-        // Округление. Прибавляем 1 в конец, если округление в большую сторону
-        if (err || exp == 28) {
-            s21_decimal tmp_end = {{0, 0, 0, 0}};
-            s21_div_simple(value_1, value_2, &tmp_end);
-            // Банковское округление к ближайшему четному
-            if (tmp_end.bits[0] > 5 || (tmp_end.bits[0] == 5 && tmp.bits[0] % 2 == 1)) {
-                tmp_end.bits[0] = 1;
-                s21_add_simple(*result, tmp_end, result);
-            }
-        }
+    }
+    // Банковское округление к ближайшему четному
+    s21_decimal tmp_end = {{0, 0, 0, 0}};
+    s21_div_simple(value_1, value_2, &tmp_end);
+    if (tmp_end.bits[0] > 5 || (tmp_end.bits[0] == 5 && tmp.bits[0] % 2 == 1)) {
+        tmp_end.bits[0] = 1;
+        s21_add_simple(*result, tmp_end, result);
     }
     // Изменение экспоненты
     err = 0;
