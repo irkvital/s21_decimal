@@ -9,39 +9,46 @@ int main() {
     s21_decimal dec2 = DEC_NUL;
     s21_decimal dec_res = DEC_NUL;
 
-    // rand_dec(&dec1);
-    // rand_dec(&dec2);
-    str_to_dec("23142.739021437278912921463090", &dec1);
-    str_to_dec("469971034644081275821.9146474", &dec2);
+    int out = 0;
+    int count = 0;
+    do {
+        // rand_dec(&dec1);
+        // rand_dec(&dec2);
+        str_to_dec("-24448040650345097989277530203", &dec1);
+        str_to_dec("-2548124291775244666739694749.2", &dec2);
 
-    s21_div(dec1, dec2, &dec_res);
-    int exp = get_exp(dec_res);
+        s21_div(dec1, dec2, &dec_res);
+        int exp = get_exp(dec_res);
 
-    char* strdec1 = dec_to_str(dec1);
-    char* strdec2 = dec_to_str(dec2);
+        char* strdec1 = dec_to_str(dec1);
+        char* strdec2 = dec_to_str(dec2);
 
-    char str[120];
-    sprintf(str, "python3 1.py %s %s %d > 1.txt", strdec1, strdec2, exp);
-    system(str);
+        char str[120];
+        sprintf(str, "python3 1.py %s %s %d > 1.txt", strdec1, strdec2, exp);
+        system(str);
 
-    char res_py[32];
-    FILE *fp;
-    if ((fp = fopen("1.txt", "r"))) {
-        fgets(res_py, 32, fp);
-        fclose(fp);
-    }
+        char res_py[32];
+        FILE *fp;
+        if ((fp = fopen("1.txt", "r"))) {
+            fgets(res_py, 32, fp);
+            fclose(fp);
+        }
 
-// PRINT
-    // char* f1 = dec_to_str(dec1);
-    printf("dec1   || %s\n", strdec1);
-    free(strdec1);
-    // char* f2 = dec_to_str(dec2);
-    printf("dec2   || %s\n", strdec2);
-    free(strdec2);
-    char* f3 = dec_to_str(dec_res);
-    printf("21_res || %s\n", f3);
-    free(f3);
-    printf("py_res || %s\n", res_py);
+    // PRINT
+        // char* f1 = dec_to_str(dec1);
+        printf("dec1   || %s\n", strdec1);
+        free(strdec1);
+        // char* f2 = dec_to_str(dec2);
+        printf("dec2   || %s\n", strdec2);
+        free(strdec2);
+        char* f3 = dec_to_str(dec_res);
+        printf("21_res || %s\n", f3);
+        out = strncmp(f3, res_py, strlen(res_py) - 1);
+        free(f3);
+        printf("py_res || %s\n\n", res_py);
+        count++;
+    } while (out == 0 && count < 1);
+
 
     return 0;
 }

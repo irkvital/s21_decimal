@@ -78,9 +78,9 @@ char* dec_to_str(s21_decimal dec) {
         out[29 - point] = '.';
     }
     // Удаление первых нулей
-    // int count = 0;
-    // while (count < 29 - point - 1 && out[count] == '0') count++;
-    // if (count != 0) memmove(out, out + count, 32 - count);
+    int count = 0;
+    while (count < 29 - point - 1 && out[count] == '0') count++;
+    if (count != 0) memmove(out, out + count, 32 - count);
     // Вставка знака
     if (get_bit(dec, 127)) {
         memmove(out + 1, out, 30);
