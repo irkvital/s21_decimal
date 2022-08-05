@@ -6,6 +6,9 @@ exp = int(sys.argv[3])
 if exp > 28:
     number =  Decimal("79228162514264337593543950335")
 else:
-    number = Decimal(sys.argv[1]) * Decimal(sys.argv[2])
+    number = Decimal(sys.argv[1]) / Decimal(sys.argv[2])
 #number = number.quantize(Decimal(".00000000000000000000000000000"))
 print('{:.{}f}'.format(number, exp))
+
+249137.4354702010758054644242224658
+249137.43547020107580546442422

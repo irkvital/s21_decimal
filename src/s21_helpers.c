@@ -279,20 +279,30 @@ void centering_simple(s21_decimal* value_1, s21_decimal* value_2, int exp_1, int
         diff--;
         exp_2++;
     }
+    int flag = 0;
     while (diff > 0) {
-        s21_decimal trash;
-        s21_decimal tmp = s21_div_simple(*value_1, DEC_TEN, value_1);
-        s21_decimal tmp_end = s21_div_simple(*value_1, DEC_TEN, &trash);
+        if (diff == 1) {
+            div_bank_round(value_1, flag);
+        } else {
+            s21_decimal tmp = s21_div_simple(*value_1, DEC_TEN, value_1);
+            if (tmp.bits[0]) flag = 1;
+        }
         diff--;
         exp_1--;
-        // Округление
-        if (tmp.bits[0] > 5 || (tmp.bits[0] == 5 && tmp_end.bits[0] % 2 == 1)) {
-            tmp.bits[0] = 1;
-            s21_add_simple(*value_1, tmp, value_1);
-        }
     }
     put_exp(value_1, exp_1);
     put_exp(value_2, exp_2);
+}
+
+void div_bank_round(s21_decimal* value, int flag) {
+    s21_decimal trash;
+    s21_decimal tmp = s21_div_simple(*value, DEC_TEN, value);
+    s21_decimal tmp_end = s21_div_simple(*value, DEC_TEN, &trash);
+    // Округление
+    if (tmp.bits[0] > 5 || (tmp.bits[0] == 5 && flag) || (tmp.bits[0] == 5 && tmp_end.bits[0] % 2 == 1)) {
+        tmp.bits[0] = 1;
+        s21_add_simple(*value, tmp, value);
+    }
 }
 
 void str_to_dec(char str[], s21_decimal* dec) {

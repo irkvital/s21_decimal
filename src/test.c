@@ -14,13 +14,10 @@ int main() {
     do {
         // rand_dec(&dec1);
         // rand_dec(&dec2);
-        // str_to_dec("-24448040650345097989277530203", &dec1);
-        // str_to_dec("-2548124291775244666739694749.2", &dec2);
-        str_to_dec("0.000000001434315031577526343", &dec1);
-        str_to_dec("543947943612934110.6", &dec2);
+        str_to_dec("-915073219.9895412674", &dec1);
+        str_to_dec("-3672.9655592003221437500522486", &dec2);
 
-
-        s21_mul(dec1, dec2, &dec_res);
+        s21_div(dec1, dec2, &dec_res);
         int exp = get_exp(dec_res);
 
         char* strdec1 = dec_to_str(dec1);
@@ -38,19 +35,20 @@ int main() {
         }
 
     // PRINT
-        // char* f1 = dec_to_str(dec1);
-        printf("dec1   || %s\n", strdec1);
-        free(strdec1);
-        // char* f2 = dec_to_str(dec2);
-        printf("dec2   || %s\n", strdec2);
-        free(strdec2);
         char* f3 = dec_to_str(dec_res);
-        printf("21_res || %s\n", f3);
         out = strncmp(f3, res_py, strlen(res_py) - 1);
-        free(f3);
-        printf("py_res || %s\n\n", res_py);
         count++;
+        if (out) {
+            printf("dec1   || %s\n", strdec1);
+            printf("dec2   || %s\n", strdec2);
+            printf("21_res || %s\n", f3);
+            printf("py_res || %s\n\n", res_py);
+        }
+        free(strdec1);
+        free(strdec2);
+        free(f3);
     } while (out == 0 && count < 1);
+    printf("COUNT %d\n", count);
 
     return 0;
 }
