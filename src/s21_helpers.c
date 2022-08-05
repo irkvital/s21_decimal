@@ -72,7 +72,7 @@ char* dec_to_str(s21_decimal dec) {
     }
     // Вставка точки
     int point = get_exp(dec);
-    if (point > 28) point = 0;
+    if (point > 28 || point < 0) point = 0;
     if (point) {
         memmove(out + 30 - point, out + 29 - point, point);
         out[29 - point] = '.';

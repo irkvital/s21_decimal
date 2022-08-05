@@ -47,6 +47,7 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     s21_decimal dec10 = {{1410065408, 2, 0, 0}};   // Число 10^10
     int exp1 = get_exp(value_1);
     int exp2 = get_exp(value_2);
+    int exp, flag = 0;
     s21_decimal tmp = DEC_NUL;
     // Формирование 3х слагаемых каждого множителя
     s21_decimal deca[3];
@@ -69,14 +70,29 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
             exp1 = get_exp(deca[i]);
             exp2 = get_exp(decb[j]);
             out += s21_mul_simple(deca[i], decb[j], &tmp);
-            put_exp(&tmp, exp1 + exp2);
+            exp = exp1 + exp2;
+            put_exp(&tmp, exp);
             out += s21_add(*result, tmp, result);
         }
     }
+    // Домножение числа на 10, если экспонента больше 28
+    exp = get_exp(*result);
+    while (exp > 28) {
+        exp--;
+        flag = 1;
+        s21_decimal tmp = s21_div_simple(*result, DEC_TEN, result);
+        s21_decimal tmp_end = s21_div_simple(*result, DEC_TEN, &tmp_end);
+        if (tmp.bits[0] > 5 || (tmp.bits[0] == 5 && tmp_end.bits[0] % 2 == 1)) {
+        tmp.bits[0] = 1;
+        s21_add_simple(*result, tmp, result);
+    }
+        put_exp(result, exp);
+    }
+
     put_bit(result, 127, sign_res);
     if (out || get_exp(*result) < 0) {
         out = (sign_res == MINUS) ? 2 : 1;
-    } else if (get_exp(*result) > 28) {
+    } else if (flag && result->bits[0] == 0 && result->bits[1] == 0 && result->bits[2] == 0) {
         out = 2;
     }
     return out;
