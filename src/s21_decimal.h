@@ -57,8 +57,8 @@ typedef struct {
 // Другие функции. Возвращают: 0 - OK, 1 - ошибка вычисления
 
     int s21_floor(s21_decimal value, s21_decimal *result);
-    // int s21_round(s21_decimal value, s21_decimal *result);
-    // int s21_truncate(s21_decimal value, s21_decimal *result);
+    int s21_round(s21_decimal value, s21_decimal *result);
+    int s21_truncate(s21_decimal value, s21_decimal *result);
     int s21_negate(s21_decimal value, s21_decimal *result);
 
 // Вспомогательные функции
@@ -84,7 +84,7 @@ typedef struct {
     int s21_div_full_bits(s21_decimal value_1, s21_decimal value_2, s21_decimal *result);
     void centering(s21_decimal* value_1, s21_decimal* value_2);
     void centering_simple(s21_decimal* value_1, s21_decimal* value_2, int exp_1, int exp_2);
-    void str_to_dec(char str[], s21_decimal* dec);
+    int str_to_dec(char str[], s21_decimal* dec);
     int scale(float);
     void div_bank_round(s21_decimal* value, int flag);
 

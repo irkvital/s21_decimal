@@ -43,7 +43,6 @@ int s21_from_int_to_decimal(int src, s21_decimal* dst){
 return 0;  //  Нет ошибки конвертации инта в децимал. Добавить
 }
 
-
 int s21_from_float_to_decimal(float src, s21_decimal *dst) {
     *dst = DEC_NUL;
     int res = 0;

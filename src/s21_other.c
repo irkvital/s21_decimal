@@ -42,8 +42,6 @@ int s21_round(s21_decimal value, s21_decimal *result) {
     s21_decimal one = {{1, 0, 0, 0}};
     s21_decimal half_one = {{5, 0, 0, 0}};
     put_exp(&half_one, 1);
-
-
     if (exp > 0 && exp <= 28) {
             s21_mod(value, one, &fract);
             s21_sub(value, fract, result);

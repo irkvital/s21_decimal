@@ -305,20 +305,24 @@ void div_bank_round(s21_decimal* value, int flag) {
     }
 }
 
-void str_to_dec(char str[], s21_decimal* dec) {
+int str_to_dec(char str[], s21_decimal* dec) {
     *dec = DEC_NUL;
+    int out = 0, sign = PLUS;
     int len = strlen(str);
     for (int i = 0; i < len; i++) {
         if (str[i] >= '0' && str[i] <= '9') {
             int symbol = str[i] - '0';
-            s21_mul_simple(*dec, DEC_TEN, dec);
-            dec->bits[0] += symbol;
+            s21_decimal symb = {{symbol, 0, 0, 0}};
+            out = s21_mul_simple(*dec, DEC_TEN, dec);
+            s21_add_simple(*dec, symb, dec);
         } else if (str[i] == '.') {
             put_exp(dec, len - 1 - i);
         } else if (str[i] == '-') {
-            put_bit(dec, 127, MINUS);
+            sign = MINUS;
         }
     }
+    put_bit(dec, 127, sign);
+    return out;
 }
 
 int scale(float num) {

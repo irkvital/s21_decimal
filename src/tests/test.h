@@ -67,6 +67,7 @@ Suite *s21_Suite_other_round();
 
 
 Suite *s21_Suite_conversion_int_to_dec();
+Suite *s21_Suite_conversion_float_to_dec();
 
 
 
