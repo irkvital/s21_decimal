@@ -55,11 +55,14 @@ Suite *s21_Suite_compare_less();
 Suite *s21_Suite_compare_less_or_equal();
 Suite *s21_Suite_compare_is_not_equal();
 Suite *s21_Suite_conversion_dec_to_float();
+
 Suite *s21_Suite_operators_add();
 Suite *s21_Suite_operators_sub();
 Suite *s21_Suite_operators_mul();
 Suite *s21_Suite_operators_div();
 Suite *s21_Suite_operators_mod();
+
+Suite *s21_Suite_other_floor();
 
 
 
