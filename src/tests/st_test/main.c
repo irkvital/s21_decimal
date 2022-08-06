@@ -189,17 +189,17 @@ int main() {
     // printf(COLOR_GREEN "TRUNCATE:\n" COLOR_END);
     // run_truncate_test(10);
 
-    // clear_input();
-    // printf(COLOR_GREEN "ROUND:\n" COLOR_END);
-    // run_round_test(10);
+    clear_input();
+    printf(COLOR_GREEN "ROUND:\n" COLOR_END);
+    run_round_test(10);
 
     // clear_input();
     // printf(COLOR_GREEN "FLOOR:\n" COLOR_END);
     // run_floor_test(10);
     
-    clear_input();
-    printf(COLOR_GREEN "NEGATE:\n" COLOR_END);
-    run_negate_test(10);
+    // clear_input();
+    // printf(COLOR_GREEN "NEGATE:\n" COLOR_END);
+    // run_negate_test(10);
 
             // clear_input();
             // printf(COLOR_GREEN "DEC_TO_FLOAT:\n" COLOR_END);

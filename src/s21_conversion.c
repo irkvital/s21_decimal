@@ -30,6 +30,7 @@ int s21_from_decimal_to_int(s21_decimal src, int *dst) {
 
 
 int s21_from_int_to_decimal(int src, s21_decimal* dst){
+    *dst = DEC_NUL;
     unsigned int out;
     if (src < 0) {
         out = - src;
@@ -44,6 +45,7 @@ return 0;  //  Нет ошибки конвертации инта в децим
 
 
 int s21_from_float_to_decimal(float src, s21_decimal *dst) {
+    *dst = DEC_NUL;
     int res = 0;
     int scale_f = scale(src);
     if (abs(scale_f) <= 95) {

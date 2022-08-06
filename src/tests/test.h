@@ -66,5 +66,8 @@ Suite *s21_Suite_other_floor();
 Suite *s21_Suite_other_round();
 
 
+Suite *s21_Suite_conversion_int_to_dec();
+
+
 
 #endif  // SRC_TESTS_TEST_H_
