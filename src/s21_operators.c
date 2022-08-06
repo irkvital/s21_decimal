@@ -2,7 +2,7 @@
 
 int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     int out = 0;
-    for (int i = 0; i < 3; i++) result->bits[i] = 0;
+    *result = DEC_NUL;
     centering(&value_1, &value_2);
     int exp1 = get_exp(value_1);
     int exp2 = get_exp(value_2);
@@ -35,6 +35,7 @@ int s21_add(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 }
 
 int s21_sub(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+    *result = DEC_NUL;
     s21_negate(value_2, &value_2);
     int out = s21_add(value_1, value_2, result);
     return out;
@@ -100,7 +101,7 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 
 int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     int out = 0;
-    for (int i = 0; i < 3; i++) result->bits[i] = 0;
+    *result = DEC_NUL;
     if (value_2.bits[0] == 0 && value_2.bits[1] == 0 && value_2.bits[2] == 0) {
         out = 3;  //    n / 0 = error
     } else if (value_1.bits[0] == 0 && value_1.bits[1] == 0 && value_1.bits[2] == 0) {
@@ -117,6 +118,7 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 }
 
 int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
+    *result = DEC_NUL;
     int out = 0;
     centering(&value_1, &value_2);
     *result = s21_div_simple(value_1, value_2, &value_2);

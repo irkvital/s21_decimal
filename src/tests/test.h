@@ -55,6 +55,7 @@ Suite *s21_Suite_compare_less();
 Suite *s21_Suite_compare_less_or_equal();
 Suite *s21_Suite_compare_is_not_equal();
 Suite *s21_Suite_conversion_dec_to_float();
+Suite *s21_Suite_operators_add();
 
 
 

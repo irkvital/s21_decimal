@@ -17,7 +17,8 @@ SRCS 		= 	$(wildcard s21_*.c)
 OBJS 		= 	$(SRCS:%.c=objs/%.o)
 DEPENDS 	= 	$(OBJS:%.o=%.d)
 
-SRCSTEST 	= 	$(wildcard *.c tests/*.c)
+#SRCSTEST 	= 	$(wildcard *.c)
+SRCSTEST 	= 	$(wildcard s21_*.c tests/*.c)
 OBJSTEST 	= 	$(SRCSTEST:%.c=objs_test/%.o)
 DEPENDSTEST = 	$(OBJSTEST:%.o=%.d)
 OBJTESTDIR 	= 	objs_test objs_test/tests
@@ -28,7 +29,7 @@ REPORT_NAME = 	report
 
 .PHONY: all test gcov_report
 
-#all: $(MYLIB) 
+#all: $(MYLIB)
 all: test
 	./$(NAME)
 

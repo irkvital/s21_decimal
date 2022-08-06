@@ -3,12 +3,12 @@
 
 int main() {
     int no_failed1 = 0, no_failed2 = 0, no_failed3 = 0, no_failed4 = 0, no_failed5 = 0, no_failed6 = 0,
-    no_failed7 = 0;
+    no_failed7 = 0, no_failed8 = 0;
 
 
-    Suite *s1, *s2, *s3, *s4, *s5, *s6, *s7; 
+    Suite *s1, *s2, *s3, *s4, *s5, *s6, *s7, *s8; 
 
-    SRunner *runner1, *runner2, *runner3, *runner4, *runner5, *runner6, *runner7;
+    SRunner *runner1, *runner2, *runner3, *runner4, *runner5, *runner6, *runner7, *runner8;
     
     s1 = s21_Suite_compare_equal();
     runner1 = srunner_create(s1);
@@ -59,10 +59,16 @@ int main() {
     no_failed7 = srunner_ntests_failed(runner7);
     srunner_free(runner7);
 
+    s8 = s21_Suite_operators_add();
+    runner8 = srunner_create(s8);
+    srunner_set_fork_status(runner8, CK_NOFORK);
+    srunner_run_all(runner8, CK_NORMAL);
+    no_failed8 = srunner_ntests_failed(runner8);
+    srunner_free(runner8);
 
 
     int failures = (!no_failed1 && !no_failed2 && !no_failed3 && !no_failed4 && !no_failed5 && !no_failed6 
-    && !no_failed7 );
+    && !no_failed7 && !no_failed8);
 
 
     return  (failures == 0) ? EXIT_SUCCESS : EXIT_FAILURE;

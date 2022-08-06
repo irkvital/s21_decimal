@@ -2,10 +2,10 @@
 
 START_TEST(s21_compare_greater) {
     
-    int len = sizeof(test_cases) / 16;
+    int len =  sizeof(test_cases) / 16 - 1;
 
     for (int i = 0; i < len; i++) {
-        ck_assert_int_eq(0, s21_is_greater(test_cases[i], test_cases[dec_num]));
+        ck_assert_int_eq(0, s21_is_greater(test_cases[i], test_cases[dec_num - 1]));
     }
 
     for (int i = 0, j = len; i < len; i++) {
