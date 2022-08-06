@@ -17,7 +17,7 @@ int main() {
         // str_to_dec("-915073219.9895412674", &dec1);
         // str_to_dec("-3672.9655592003221437500522486", &dec2);
 
-        s21_add(dec1, dec2, &dec_res);
+        s21_div(dec1, dec2, &dec_res);
         int exp = get_exp(dec_res);
 
         char* strdec1 = dec_to_str(dec1);
@@ -38,7 +38,7 @@ int main() {
         char* f3 = dec_to_str(dec_res);
         out = strncmp(f3, res_py, strlen(res_py) - 1);
         count++;
-        if (out) {
+        if (!out) {
             printf("dec1   || %s\n", strdec1);
             printf("dec2   || %s\n", strdec2);
             printf("21_res || %s\n", f3);
