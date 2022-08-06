@@ -38,7 +38,7 @@ int main() {
         char* f3 = dec_to_str(dec_res);
         out = strncmp(f3, res_py, strlen(res_py) - 1);
         count++;
-        if (!out) {
+        if (out) {
             printf("dec1   || %s\n", strdec1);
             printf("dec2   || %s\n", strdec2);
             printf("21_res || %s\n", f3);
