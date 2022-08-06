@@ -35,31 +35,24 @@ int s21_floor(s21_decimal value, s21_decimal *result) {
     return out;
 }
 
-
 int s21_round(s21_decimal value, s21_decimal *result) {
     int out = 0, exp = get_exp(value), sign = get_bit(value, 127);
     
     s21_decimal fract = DEC_NUL;
     s21_decimal one = {{1, 0, 0, 0}};
     s21_decimal half_one = {{5, 0, 0, 0}};
-//    put_exp(&half_one, 1);
-//    print_bits(half_one);
+    put_exp(&half_one, 1);
 
-    if (get_bit(value, 127)) 
-        put_bit(result, 127, 1);
 
-    
     if (exp > 0 && exp <= 28) {
-        while(exp-- > 0) {
-            fract = s21_div_simple(value, DEC_TEN, result);
-            value = *result;
-        }
-        put_bit(&fract, 127, 0);
-        if (s21_is_greater_or_equal(fract, half_one) && !sign)
-            s21_add(*result, one, result);
-        else if (s21_is_greater_or_equal(fract, half_one) && sign)
-            s21_sub(*result, one, result);
-
+            s21_mod(value, one, &fract);
+            s21_sub(value, fract, result);
+            if (sign) s21_negate(half_one, &half_one);
+            if (s21_is_greater_or_equal(fract, half_one) && !sign) {
+                s21_add(*result, one, result);
+            } else if (s21_is_less_or_equal(fract, half_one) && sign) {
+                s21_sub(*result, one, result);
+            }
     } else if (exp == 0) { 
         *result = value; 
     } else { out = 1; }

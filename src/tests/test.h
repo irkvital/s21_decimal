@@ -63,6 +63,7 @@ Suite *s21_Suite_operators_div();
 Suite *s21_Suite_operators_mod();
 
 Suite *s21_Suite_other_floor();
+Suite *s21_Suite_other_round();
 
 
 
