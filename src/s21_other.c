@@ -12,7 +12,7 @@ int s21_negate(s21_decimal value, s21_decimal *result) {
 
 
 int s21_floor(s21_decimal value, s21_decimal *result) {
-    int exp = get_exp(value), out = 0;
+    int exp = get_exp(value), out = 0, flag = 0;
     s21_decimal fract = DEC_NUL;
     s21_decimal one = {{1, 0, 0, 0}};
     put_bit(&one, 127, 1);
@@ -22,13 +22,15 @@ int s21_floor(s21_decimal value, s21_decimal *result) {
     if (exp > 0 && exp <= 28) {
         while(exp-- > 0) {
             fract = s21_div_simple(value, DEC_TEN, result);
+            if (s21_is_not_equal(fract, DEC_NUL)) flag = 1;
             value = *result;
+            put_exp(result, exp);
         }
     } else if (exp == 0) { 
         *result = value; 
     } else { out = 1; }
 
-    if (get_bit(value, 127) && !s21_is_equal(fract, DEC_NUL))
+    if (get_bit(value, 127) && flag)
         s21_add(*result, one, result);
     return out;
 }
