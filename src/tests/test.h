@@ -64,6 +64,8 @@ Suite *s21_Suite_operators_mod();
 
 Suite *s21_Suite_other_floor();
 Suite *s21_Suite_other_round();
+Suite *s21_Suite_other_negate();
+Suite *s21_Suite_other_truncate();
 
 
 Suite *s21_Suite_conversion_int_to_dec();

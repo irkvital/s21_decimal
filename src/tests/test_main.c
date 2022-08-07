@@ -4,13 +4,16 @@
 int main() {
     int no_failed1 = 0, no_failed2 = 0, no_failed3 = 0, no_failed4 = 0, no_failed5 = 0, no_failed6 = 0,
     no_failed7 = 0, no_failed8 = 0, no_failed9 = 0, no_failed10 = 0, no_failed11 = 0, no_failed12 = 0,
-    no_failed13 = 0, no_failed14 = 0, no_failed15 = 0, no_failed16 = 0;
+    no_failed13 = 0, no_failed14 = 0, no_failed15 = 0, no_failed16 = 0, no_failed17 = 0, no_failed18 = 0,
+    no_failed19 = 0;
 
 
-    Suite *s1, *s2, *s3, *s4, *s5, *s6, *s7, *s8, *s9, *s10, *s11, *s12, *s13, *s14, *s15, *s16;
+    Suite *s1, *s2, *s3, *s4, *s5, *s6, *s7, *s8, *s9, *s10, *s11, *s12, *s13, *s14, *s15, *s16,
+    *s17, *s18, *s19;
 
     SRunner *runner1, *runner2, *runner3, *runner4, *runner5, *runner6, *runner7, *runner8,
-    *runner9, *runner10, *runner11, *runner12, *runner13, *runner14, *runner15, *runner16;
+    *runner9, *runner10, *runner11, *runner12, *runner13, *runner14, *runner15, *runner16,
+    *runner17, *runner18, *runner19;
     
     s1 = s21_Suite_compare_equal();
     runner1 = srunner_create(s1);
@@ -54,79 +57,100 @@ int main() {
     no_failed6 = srunner_ntests_failed(runner6);
     srunner_free(runner6);
 
-    s7 = s21_Suite_conversion_dec_to_float();
+
+
+    s7 = s21_Suite_operators_add();
     runner7 = srunner_create(s7);
     srunner_set_fork_status(runner7, CK_NOFORK);
     srunner_run_all(runner7, CK_NORMAL);
     no_failed7 = srunner_ntests_failed(runner7);
     srunner_free(runner7);
 
-    s8 = s21_Suite_operators_add();
+    s8 = s21_Suite_operators_sub();
     runner8 = srunner_create(s8);
     srunner_set_fork_status(runner8, CK_NOFORK);
     srunner_run_all(runner8, CK_NORMAL);
     no_failed8 = srunner_ntests_failed(runner8);
     srunner_free(runner8);
 
-    s9 = s21_Suite_operators_sub();
+    s9 = s21_Suite_operators_mul();
     runner9 = srunner_create(s9);
     srunner_set_fork_status(runner9, CK_NOFORK);
     srunner_run_all(runner9, CK_NORMAL);
     no_failed9 = srunner_ntests_failed(runner9);
     srunner_free(runner9);
 
-    s10 = s21_Suite_operators_mul();
+    s10 = s21_Suite_operators_div();
     runner10 = srunner_create(s10);
     srunner_set_fork_status(runner10, CK_NOFORK);
     srunner_run_all(runner10, CK_NORMAL);
     no_failed10 = srunner_ntests_failed(runner10);
     srunner_free(runner10);
 
-    s11 = s21_Suite_operators_div();
+    s11 = s21_Suite_operators_mod();
     runner11 = srunner_create(s11);
     srunner_set_fork_status(runner11, CK_NOFORK);
     srunner_run_all(runner11, CK_NORMAL);
     no_failed11 = srunner_ntests_failed(runner11);
     srunner_free(runner11);
 
-    s12 = s21_Suite_operators_mod();
+
+
+    s12 = s21_Suite_other_floor();
     runner12 = srunner_create(s12);
     srunner_set_fork_status(runner12, CK_NOFORK);
     srunner_run_all(runner12, CK_NORMAL);
     no_failed12 = srunner_ntests_failed(runner12);
     srunner_free(runner12);
 
-    s13 = s21_Suite_other_floor();
+    s13 = s21_Suite_other_round();
     runner13 = srunner_create(s13);
     srunner_set_fork_status(runner13, CK_NOFORK);
     srunner_run_all(runner13, CK_NORMAL);
     no_failed13 = srunner_ntests_failed(runner13);
     srunner_free(runner13);
 
-    s14 = s21_Suite_other_round();
+    s14 = s21_Suite_other_negate();
     runner14 = srunner_create(s14);
     srunner_set_fork_status(runner14, CK_NOFORK);
     srunner_run_all(runner14, CK_NORMAL);
     no_failed14 = srunner_ntests_failed(runner14);
     srunner_free(runner14);
 
-    s15 = s21_Suite_conversion_int_to_dec();
+    s15 = s21_Suite_other_truncate();
     runner15 = srunner_create(s15);
     srunner_set_fork_status(runner15, CK_NOFORK);
     srunner_run_all(runner15, CK_NORMAL);
     no_failed15 = srunner_ntests_failed(runner15);
     srunner_free(runner15);
 
-    s16 = s21_Suite_conversion_float_to_dec();
+
+
+    s16 = s21_Suite_conversion_int_to_dec();
     runner16 = srunner_create(s16);
     srunner_set_fork_status(runner16, CK_NOFORK);
     srunner_run_all(runner16, CK_NORMAL);
     no_failed16 = srunner_ntests_failed(runner16);
     srunner_free(runner16);
 
+    s17 = s21_Suite_conversion_float_to_dec();
+    runner17 = srunner_create(s17);
+    srunner_set_fork_status(runner17, CK_NOFORK);
+    srunner_run_all(runner17, CK_NORMAL);
+    no_failed17 = srunner_ntests_failed(runner17);
+    srunner_free(runner17);
+
+    s18 = s21_Suite_conversion_dec_to_float();
+    runner18 = srunner_create(s18);
+    srunner_set_fork_status(runner18, CK_NOFORK);
+    srunner_run_all(runner18, CK_NORMAL);
+    no_failed18 = srunner_ntests_failed(runner18);
+    srunner_free(runner18);
+
     int failures = (!no_failed1 && !no_failed2 && !no_failed3 && !no_failed4 && !no_failed5 && !no_failed6 
     && !no_failed7 && !no_failed8 && !no_failed9 && !no_failed10 && !no_failed11 && !no_failed12
-    && !no_failed13 && !no_failed14 && !no_failed15 && !no_failed16);
+    && !no_failed13 && !no_failed14 && !no_failed15 && !no_failed16 && !no_failed17 && !no_failed18
+    && !no_failed19);
 
 
     return  (failures == 0) ? EXIT_SUCCESS : EXIT_FAILURE;

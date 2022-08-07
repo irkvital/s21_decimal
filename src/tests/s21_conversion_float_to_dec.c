@@ -19,7 +19,7 @@ START_TEST(s21_conversion_float_to_dec_2) {
 } END_TEST
 
 START_TEST(s21_conversion_float_to_dec_3) {
-    s21_decimal expect_dec, s21_res;
+    s21_decimal s21_res;
     float fl = 79228162514264337593543950335.;
     int out = s21_from_float_to_decimal(fl, &s21_res);
     ck_assert_int_eq(1, out);
