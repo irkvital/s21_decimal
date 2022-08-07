@@ -29,9 +29,7 @@ REPORT_NAME = 	report
 
 .PHONY: all test gcov_report
 
-#all: $(MYLIB)
-all: test
-	./$(NAME)
+all: $(MYLIB) 
 
 test: $(OBJSTEST)
 	rm -rf $(wildcard objs_test/*.gcda objs_test/tests/*.gcda)
