@@ -15,10 +15,9 @@ START_TEST(s21_operators_mod_2) {
 } END_TEST
 
 START_TEST(s21_operators_mod_3) {
-    s21_decimal expect_dec, s21_res;
-    str_to_dec("-0.05311686657495426669", &expect_dec);
-    s21_mod(test_cases[2], test_cases[3], &s21_res);
-    ck_assert_int_eq(1, s21_is_equal(s21_res, expect_dec));
+    s21_decimal s21_res;
+    int out = s21_mod(test_cases[2], test_cases[3], &s21_res);
+        ck_assert_int_eq(3, out);
 } END_TEST
 
 START_TEST(s21_operators_mod_4) {
@@ -43,12 +42,10 @@ START_TEST(s21_operators_mod_6) {
 } END_TEST
 
 START_TEST(s21_operators_mod_7) {
-    s21_decimal expect_dec, s21_res, a_dec, b_dec;
+    s21_decimal s21_res, a_dec, b_dec = DEC_NUL;
     str_to_dec("-99229.09468317", &a_dec);
-    str_to_dec("992295073270.09468317", &b_dec);
-    str_to_dec("-99229.09468317", &expect_dec);
-    s21_mod(a_dec, b_dec, &s21_res);
-    ck_assert_int_eq(1, s21_is_equal(s21_res, expect_dec));
+    int out = s21_mod(a_dec, b_dec, &s21_res);
+    ck_assert_int_eq(3, out);
 } END_TEST
 
 START_TEST(s21_operators_mod_8) {
@@ -59,7 +56,10 @@ START_TEST(s21_operators_mod_8) {
     s21_mod(a_dec, b_dec, &s21_res);
     ck_assert_int_eq(1, s21_is_equal(s21_res, expect_dec));
 
+    int out = s21_mod(a_dec, b_dec, &s21_res);
+    ck_assert_int_eq(1, s21_is_equal(s21_res, expect_dec));
 } END_TEST
+
 
 Suite *s21_Suite_operators_mod() {
     Suite *s;

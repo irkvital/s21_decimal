@@ -1,6 +1,4 @@
 #include "./s21_decimal.h"
-#define hint 2147483648
-#define lint -2147483649
 
 int s21_from_decimal_to_float(s21_decimal src, float *dst) {
     int out = 0;
@@ -17,10 +15,10 @@ int s21_from_decimal_to_float(s21_decimal src, float *dst) {
 
 int s21_from_decimal_to_int(s21_decimal src, int *dst) {
     int res = 0;
-    char* tmp = dec_to_str(src);     
+    char* tmp = dec_to_str(src);
     long int tmp_res = (int)strtod(tmp, NULL);
     free(tmp);
-    if (tmp_res > hint && tmp_res < lint) {
+    if (src.bits[1] || src.bits[2]) {
         res = 1;
     } else {
         *dst = tmp_res;
@@ -40,7 +38,7 @@ int s21_from_int_to_decimal(int src, s21_decimal* dst){
         put_bit(dst, 127, PLUS);
     }
     dst->bits[0] = out;
-return 0;  //  Нет ошибки конвертации инта в децимал. Добавить
+return 0;
 }
 
 int s21_from_float_to_decimal(float src, s21_decimal *dst) {

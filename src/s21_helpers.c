@@ -13,20 +13,20 @@ void put_bit(s21_decimal* dec, int bit_num, int bit) {
     }
 }
 
-void print_bits(s21_decimal dec) {
-    for (int byte = 0; byte < 4; byte++) {
-        for (int bit = 32 * (byte + 1) - 1; bit >= byte * 32; bit--) {
-            int out = get_bit(dec, bit);
-            if ((bit >= 112 && bit <= 119) || bit == 127) {
-                printf("\x1B[31m""%d", out);
-            } else {
-                printf("\x1B[0m""%d", out);
-            }
-        }
-        putchar('\n');
-    }
-    putchar('\n');
-}
+// void print_bits(s21_decimal dec) {
+//     for (int byte = 0; byte < 4; byte++) {
+//         for (int bit = 32 * (byte + 1) - 1; bit >= byte * 32; bit--) {
+//             int out = get_bit(dec, bit);
+//             if ((bit >= 112 && bit <= 119) || bit == 127) {
+//                 printf("\x1B[31m""%d", out);
+//             } else {
+//                 printf("\x1B[0m""%d", out);
+//             }
+//         }
+//         putchar('\n');
+//     }
+//     putchar('\n');
+// }
 
 void put_exp(s21_decimal* dec, int exp) {
     for (int bit_num = 0; bit_num < 8; bit_num++) {
@@ -255,7 +255,7 @@ int s21_div_full_bits(s21_decimal value_1, s21_decimal value_2, s21_decimal *res
     }
     put_exp(result, exp);
     if (result->bits[0] == 0 && result->bits[1] == 0 && result->bits[2] == 0) {
-        out = 2;     // Как по мне нужно код ошибки 2, если число близко к нулю, т.е. очень мало
+        out = 2;
     } else if (err) {
         out = 1;
     }

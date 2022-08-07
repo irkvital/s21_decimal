@@ -47,8 +47,8 @@ START_TEST(s21_other_negate_5) {
 
 START_TEST(s21_other_negate_6) {
     s21_decimal expect_dec, s21_res;
-    str_to_dec("87637685379687", &s21_res);
-    str_to_dec("-87637685379687", &expect_dec);
+    str_to_dec("-2147483648", &s21_res);
+    str_to_dec("2147483648", &expect_dec);
     int out = s21_negate(s21_res, &s21_res);
     ck_assert_int_eq(1, s21_is_equal(s21_res, expect_dec));
     ck_assert_int_eq(0, out);

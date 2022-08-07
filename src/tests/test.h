@@ -54,7 +54,6 @@ Suite *s21_Suite_compare_greater_or_equal();
 Suite *s21_Suite_compare_less();
 Suite *s21_Suite_compare_less_or_equal();
 Suite *s21_Suite_compare_is_not_equal();
-Suite *s21_Suite_conversion_dec_to_float();
 
 Suite *s21_Suite_operators_add();
 Suite *s21_Suite_operators_sub();
@@ -67,9 +66,10 @@ Suite *s21_Suite_other_round();
 Suite *s21_Suite_other_negate();
 Suite *s21_Suite_other_truncate();
 
-
 Suite *s21_Suite_conversion_int_to_dec();
 Suite *s21_Suite_conversion_float_to_dec();
+Suite *s21_Suite_conversion_dec_to_float();
+Suite *s21_Suite_conversion_dec_to_int();
 
 
 

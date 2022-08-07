@@ -147,6 +147,13 @@ int main() {
     no_failed18 = srunner_ntests_failed(runner18);
     srunner_free(runner18);
 
+    s19 = s21_Suite_conversion_dec_to_int();
+    runner19 = srunner_create(s19);
+    srunner_set_fork_status(runner19, CK_NOFORK);
+    srunner_run_all(runner19, CK_NORMAL);
+    no_failed19 = srunner_ntests_failed(runner19);
+    srunner_free(runner19);
+
     int failures = (!no_failed1 && !no_failed2 && !no_failed3 && !no_failed4 && !no_failed5 && !no_failed6 
     && !no_failed7 && !no_failed8 && !no_failed9 && !no_failed10 && !no_failed11 && !no_failed12
     && !no_failed13 && !no_failed14 && !no_failed15 && !no_failed16 && !no_failed17 && !no_failed18
