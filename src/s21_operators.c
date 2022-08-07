@@ -119,19 +119,10 @@ int s21_div(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
 
 int s21_mod(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     *result = DEC_NUL;
-    int out = 0;
-    if (value_2.bits[0] == 0 && value_2.bits[1] == 0 && value_2.bits[2] == 0) {
-        out = 3;
-    } else {
+    if (value_2.bits[0] != 0 || value_2.bits[1] != 0 || value_2.bits[2] != 0) {
         centering(&value_1, &value_2);
-        if (value_1.bits[0] == 0 && value_1.bits[1] == 0 && value_1.bits[2] == 0) {
-            out = 2;
-        } else if (value_2.bits[0] == 0 && value_2.bits[1] == 0 && value_2.bits[2] == 0) {
-            out = (get_bit(value_1, 127) == MINUS) ? 2 : 1;
-        } else {
         *result = s21_div_simple(value_1, value_2, &value_2);
         put_bit(result, 127, get_bit(value_1, 127));
-        }
     }
-    return out;
+    return 0;
 }

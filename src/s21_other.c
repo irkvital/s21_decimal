@@ -61,7 +61,7 @@ int s21_round(s21_decimal value, s21_decimal *result) {
 
 int s21_truncate(s21_decimal value, s21_decimal *result) {
     *result = DEC_NUL;
-    int exp = get_exp(value), out = 0, flag = 0;
+    int exp = get_exp(value), out = 0;
     if (get_bit(value, 127))
         put_bit(result, 127, 1);
 
