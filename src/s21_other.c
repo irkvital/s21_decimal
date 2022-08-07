@@ -17,18 +17,18 @@ int s21_floor(s21_decimal value, s21_decimal *result) {
     s21_decimal fract = DEC_NUL;
     s21_decimal one = {{1, 0, 0, 0}};
     put_bit(&one, 127, 1);
-    if (get_bit(value, 127)) 
+    if (get_bit(value, 127))
         put_bit(result, 127, 1);
 
     if (exp > 0 && exp <= 28) {
-        while(exp-- > 0) {
+        while (exp-- > 0) {
             fract = s21_div_simple(value, DEC_TEN, result);
             if (s21_is_not_equal(fract, DEC_NUL)) flag = 1;
             value = *result;
             put_exp(result, exp);
         }
-    } else if (exp == 0) { 
-        *result = value; 
+    } else if (exp == 0) {
+        *result = value;
     } else { out = 1; }
 
     if (get_bit(value, 127) && flag)
@@ -52,11 +52,11 @@ int s21_round(s21_decimal value, s21_decimal *result) {
             } else if (s21_is_less_or_equal(fract, half_one) && sign) {
                 s21_sub(*result, one, result);
             }
-    } else if (exp == 0) { 
-        *result = value; 
+    } else if (exp == 0) {
+        *result = value;
     } else { out = 1; }
 
-    return out; 
+    return out;
 }
 
 int s21_truncate(s21_decimal value, s21_decimal *result) {
@@ -66,13 +66,13 @@ int s21_truncate(s21_decimal value, s21_decimal *result) {
         put_bit(result, 127, 1);
 
     if (exp > 0 && exp <= 28) {
-        while(exp-- > 0) {
+        while (exp-- > 0) {
             s21_div_simple(value, DEC_TEN, &value);
         }
         *result = value;
         put_exp(result, 0);
-    } else if (exp == 0) { 
-        *result = value; 
+    } else if (exp == 0) {
+        *result = value;
     } else { out = 1; }
     return out;
 }

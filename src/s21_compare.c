@@ -51,14 +51,14 @@ int s21_is_less(s21_decimal v1, s21_decimal v2) {
             if ((unsigned)v1.bits[byte] > (unsigned)v2.bits[byte]) {
                 if (!sign_1)
                     out = FALSE, flag = 1;
-                else 
+                else
                     out = TRUE, flag = 1;
             } else if ((unsigned)v1.bits[byte] < (unsigned)v2.bits[byte]) {
                 if (!sign_1)
                     out = TRUE, flag = 1;
-                else 
+                else
                     out = FALSE, flag = 1;
-            } else if (byte == 0 && flag == 0) { 
+            } else if (byte == 0 && flag == 0) {
                     out = FALSE;
                     }
         }
@@ -71,7 +71,7 @@ return out;
 }
 
 
-int s21_is_less_or_equal(s21_decimal v1, s21_decimal v2){
+int s21_is_less_or_equal(s21_decimal v1, s21_decimal v2) {
     int out = s21_is_equal(v1, v2);
     out += s21_is_less(v1, v2);
     out = out > 0 ? 1 : 0;
@@ -79,7 +79,7 @@ return out;
 }
 
 
-int s21_is_not_equal(s21_decimal v1, s21_decimal v2){
+int s21_is_not_equal(s21_decimal v1, s21_decimal v2) {
 return !s21_is_equal(v1, v2);
 }
 
