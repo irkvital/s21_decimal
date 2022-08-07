@@ -2,7 +2,7 @@
 
 START_TEST(s21_compare_equal) {
     
-    int len = sizeof(test_cases) / 16 - 1;
+    int len = sizeof(test_cases) / 16;
     for (int i = 0; i < len; i++)
         ck_assert_int_eq(1, s21_is_equal(test_cases[i], test_cases[i]));
 
