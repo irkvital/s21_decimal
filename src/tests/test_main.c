@@ -160,5 +160,5 @@ int main() {
     && !no_failed19);
 
 
-    return  (failures == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
+    return  (failures == 0) ? EXIT_FAILURE : EXIT_SUCCESS;
 }

@@ -4,7 +4,7 @@
 
 #include <check.h>
 #include "../s21_decimal.h"
-#define dec_num 16
+#define dec_num 17
 
 
 

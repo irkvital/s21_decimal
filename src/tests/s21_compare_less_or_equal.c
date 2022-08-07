@@ -2,39 +2,9 @@
 
 START_TEST(s21_compare_less_or_equal) {
     
-    int len = sizeof(test_cases) / 16;
-
-    for (int i = 0, j = len - 1, res = 1; i < len - 1; i++, res = 1) {
-        res = s21_is_less_or_equal(test_cases[j], test_cases[i]);
-//        for (int k = 0; k < 4; k++) {
-//            printf("dec1.int%d = %15d    dec2.int%d = %d\n",k, test_cases[i].bits[k],
-//                k, test_cases[j].bits[k]);    
-//        }
-//        printf("\n"); 
-        ck_assert_int_eq(0, res);
-    }
-
-    for (int i = 0, j = len-1, res = 0; i < len - 1; i++, res = 1) {
-        res = s21_is_less_or_equal(test_cases[i], test_cases[j]);
-//        for (int k = 0; k < 4; k++) {
-//            printf("dec1.int%d = %15d    dec2.int%d = %d\n",k, test_cases[i].bits[k],
-//                k, test_cases[j].bits[k]);    
-//        }
-//        printf("\n"); 
-        ck_assert_int_eq(1, res);
-    } 
-
-    for (int i = 0, j = 0, res = 0; i < len; i++, j++, res = 1) {
-        res = s21_is_less_or_equal(test_cases[j], test_cases[i]);
-//          for (int k = 0; k < 4; k++) {
-//              printf("dec1.int%d = %15d    dec2.int%d = %d\n",k, test_cases[i].bits[k],
-//                  k, test_cases[j].bits[k]);    
-//          }
-//          printf("\n"); 
-        ck_assert_int_eq(1, res);
-    } 
-
-
+    ck_assert_int_eq(0, s21_is_less_or_equal(test_cases[5], test_cases[2]));
+    ck_assert_int_eq(1, s21_is_less_or_equal(test_cases[2], test_cases[6]));
+    ck_assert_int_eq(1, s21_is_less_or_equal(test_cases[0], test_cases[0]));
 
 } END_TEST
 
