@@ -54,14 +54,6 @@ START_TEST(s21_other_round_6) {
     ck_assert_int_eq(0, out);
 } END_TEST
 
-START_TEST(s21_other_round_7) {
-    s21_decimal s21_res;
-    str_to_dec("744367.68425", &s21_res);
-    put_exp(&s21_res, 30);
-    int out = s21_round(s21_res, &s21_res);
-    ck_assert_int_eq(1, out);
-} END_TEST
-
 Suite *s21_Suite_other_round() {
     Suite *s;
 
@@ -75,7 +67,6 @@ Suite *s21_Suite_other_round() {
     tcase_add_test(tc1_s21_other_round, s21_other_round_4);
     tcase_add_test(tc1_s21_other_round, s21_other_round_5);
     tcase_add_test(tc1_s21_other_round, s21_other_round_6);
-    tcase_add_test(tc1_s21_other_round, s21_other_round_7);
 
     suite_add_tcase(s, tc1_s21_other_round);
     return s;
