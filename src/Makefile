@@ -17,7 +17,6 @@ SRCS 		= 	$(wildcard s21_*.c)
 OBJS 		= 	$(SRCS:%.c=objs/%.o)
 DEPENDS 	= 	$(OBJS:%.o=%.d)
 
-#SRCSTEST 	= 	$(wildcard *.c)
 SRCSTEST 	= 	$(wildcard s21_*.c tests/*.c)
 OBJSTEST 	= 	$(SRCSTEST:%.c=objs_test/%.o)
 DEPENDSTEST = 	$(OBJSTEST:%.o=%.d)
@@ -29,7 +28,9 @@ REPORT_NAME = 	report
 
 .PHONY: all test gcov_report
 
-all: $(MYLIB) 
+all: test
+	valgrind --tool=memcheck --trace-children=yes --track-fds=yes --leak-check=full --show-leak-kinds=all --track-origins=yes ./test
+#	./test
 
 test: $(OBJSTEST)
 	rm -rf $(wildcard objs_test/*.gcda objs_test/tests/*.gcda)

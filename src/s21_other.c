@@ -37,26 +37,26 @@ int s21_floor(s21_decimal value, s21_decimal *result) {
 }
 
 int s21_round(s21_decimal value, s21_decimal *result) {
-    *result = DEC_NUL;
-    int out = 0, exp = get_exp(value), sign = get_bit(value, 127);
-    s21_decimal fract = DEC_NUL;
-    s21_decimal one = {{1, 0, 0, 0}};
-    s21_decimal half_one = {{5, 0, 0, 0}};
-    put_exp(&half_one, 1);
-    if (exp > 0 && exp <= 28) {
-            s21_mod(value, one, &fract);
-            s21_sub(value, fract, result);
-            if (sign) s21_negate(half_one, &half_one);
-            if (s21_is_greater_or_equal(fract, half_one) && !sign) {
-                s21_add(*result, one, result);
-            } else if (s21_is_less_or_equal(fract, half_one) && sign) {
-                s21_sub(*result, one, result);
-            }
-    } else if (exp == 0) {
-        *result = value;
-    } else { out = 1; }
+    int sign = get_bit(value, 127);
+    s21_decimal base = {0}, mul = {0}, one = {0};
+    s21_decimal copy = value;
+    s21_truncate(value, result);
+    s21_from_int_to_decimal(10, &base);
+    s21_from_int_to_decimal(1, &one);
+    int degree = get_exp(value);
 
-    return out;
+    if (degree != 0)
+        degree--;
+    while (degree != 0) {
+        s21_div_simple(value, base, &value);
+        degree--;
+    }
+    mul = s21_div_simple(value, base, &value);
+    if (mul.bits[0] >= 5 && !s21_is_equal(copy, *result)) {
+        s21_add_simple(*result, one, result);
+    }
+    put_bit(result, 127, sign);
+    return 0;
 }
 
 int s21_truncate(s21_decimal value, s21_decimal *result) {

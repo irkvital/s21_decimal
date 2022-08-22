@@ -51,8 +51,8 @@ int s21_mul(s21_decimal value_1, s21_decimal value_2, s21_decimal *result) {
     int exp, flag = 0;
     s21_decimal tmp = DEC_NUL;
     // Формирование 3х слагаемых каждого множителя
-    s21_decimal deca[3];
-    s21_decimal decb[3];
+    s21_decimal deca[3] = {0};
+    s21_decimal decb[3] = {0};
     deca[2] = value_1;
     decb[2] = value_2;
     for (int i = 2; i >= 0; i--) {
