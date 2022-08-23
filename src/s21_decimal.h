@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <string.h>
+#include <stdbool.h>
 
 #define MINUS   1
 #define PLUS    0
@@ -87,5 +88,11 @@ typedef struct {
     int str_to_dec(char str[], s21_decimal* dec);
     int scale(float);
     void div_bank_round(s21_decimal* value, int flag);
+
+    int getBinaryExp(unsigned int fbits);
+    void setMantissa(s21_decimal *dst, int binaryScale);
+    void setFloat(s21_decimal *dst, int binaryScale, unsigned int fbits);
+    void ChangeDegree(int sign, int *num);
+    int CheckRigtBit(int num);
 
 #endif  // SRC_S21_DECIMAL_H_

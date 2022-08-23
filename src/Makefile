@@ -30,7 +30,6 @@ REPORT_NAME = 	report
 
 all: test
 	valgrind --tool=memcheck --trace-children=yes --track-fds=yes --leak-check=full --show-leak-kinds=all --track-origins=yes ./test
-#	./test
 
 test: $(OBJSTEST)
 	rm -rf $(wildcard objs_test/*.gcda objs_test/tests/*.gcda)
