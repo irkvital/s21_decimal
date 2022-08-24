@@ -29,7 +29,7 @@ REPORT_NAME = 	report
 .PHONY: all test gcov_report
 
 all: test
-	valgrind --tool=memcheck --trace-children=yes --track-fds=yes --leak-check=full --show-leak-kinds=all --track-origins=yes ./test
+	valgrind --tool=memcheck --leak-check=full --show-leak-kinds=all --track-origins=yes ./test
 
 test: $(OBJSTEST)
 	rm -rf $(wildcard objs_test/*.gcda objs_test/tests/*.gcda)
